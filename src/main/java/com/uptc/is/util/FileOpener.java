@@ -1,11 +1,11 @@
-package com.uptc.is.view;
+package com.uptc.is.util;
 
 import java.awt.*;
 import java.io.*;
 
-public class OpenFile {
+public class FileOpener {
 
-    public OpenFile(String name){
+    public FileOpener(String name){
         try {
             //IDE
             File pdfFile = new File("resources/"+name);
@@ -15,7 +15,7 @@ public class OpenFile {
             }
 
             //JAR
-            InputStream inputStream = OpenFile.class.getClassLoader().getResourceAsStream(name);
+            InputStream inputStream = FileOpener.class.getClassLoader().getResourceAsStream(name);
             if (inputStream == null) {
                 System.out.println("No se encontró el archivo PDF dentro del JAR.");
                 return;

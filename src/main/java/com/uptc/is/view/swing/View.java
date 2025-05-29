@@ -1,19 +1,19 @@
-package com.uptc.is.view;
+package com.uptc.is.view.swing;
 
 import java.awt.event.ActionListener;
 
 public class View {
 
-    private final AppFrame frame;
+    private final MainFrame frame;
 
     public View(ActionListener listener) {
-        frame = new AppFrame(listener);
+        frame = new MainFrame(listener);
     }
 
     //GETTERS Y SETTERS DE VISTA
     //....
 
-    public AppFrame getFrame(){
+    public MainFrame getFrame(){
         return frame;
     }
 

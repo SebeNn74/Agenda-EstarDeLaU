@@ -1,26 +1,31 @@
 package com.uptc.is.presenter;
 
+import com.uptc.is.view.contracts.IMainView;
 import com.uptc.is.view.custom_components.EditProcessWindow;
 import com.uptc.is.view.custom_components.MessageDialog;
 import com.uptc.is.view.custom_components.SearchWindow;
-import com.uptc.is.view.View;
+import com.uptc.is.view.swing.View;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class Presenter implements ActionListener {
+public class MainPresenter implements ActionListener {
 
+    private IMainView mainView;
     private View view;
     private EditProcessWindow editProcessWindow;
     private SearchWindow search;
 
-    public Presenter(){
+    public MainPresenter(IMainView mainView){
+        this.mainView = mainView;
+        mainView.setPresenter(this);
+
+        this.mainView.showView();
         run();
     }
 
     public void run(){
         view = new View(this);
-
     }
 
     @Override
@@ -96,5 +101,8 @@ public class Presenter implements ActionListener {
         new MessageDialog(view.getFrame(),"El "+field+" de el proceso no puede estar vacío", MessageDialog.MessageType.ERROR);
         return false;
     }
+
+    /***************************************************/
+
 
 }

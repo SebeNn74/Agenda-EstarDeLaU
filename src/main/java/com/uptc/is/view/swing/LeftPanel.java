@@ -1,4 +1,4 @@
-package com.uptc.is.view;
+package com.uptc.is.view.swing;
 
 import com.uptc.is.view.custom_components.CustomButton;
 import com.uptc.is.view.custom_components.NumericTextField;

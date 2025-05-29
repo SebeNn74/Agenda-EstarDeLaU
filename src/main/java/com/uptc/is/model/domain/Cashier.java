@@ -1,10 +1,11 @@
 package com.uptc.is.model.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Cashier {
 
-    private final String nuip;
+    private String nuip;
     private String names;
     private String surnames;
     private String studentCode;
@@ -14,9 +15,13 @@ public class Cashier {
     private List<Schedule> workingSchedule;
     private List<Schedule> classSchedule;
 
+    public Cashier(){}
+
     public Cashier(String nuip, String studentCode){
         this.nuip = nuip;
         this.studentCode = studentCode;
+        workingSchedule = new ArrayList<>();
+        classSchedule = new ArrayList<>();
     }
 
     //Getters y Setters

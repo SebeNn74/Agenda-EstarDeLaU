@@ -7,9 +7,12 @@ import java.util.HashMap;
 
 public class Schedule {
 
-    private final String id;
+    private String id;
+    private String cashier;
     private LocalDate date;
     private HashMap<String, TimeSlot> timeSlots;
+
+    public Schedule() {}
 
     public Schedule(String id, LocalDate date){
         this.id = IdGenerator.generateId("H");
@@ -35,6 +38,14 @@ public class Schedule {
 
     public String getID() {
         return id;
+    }
+
+    public String getCashier() {
+        return cashier;
+    }
+
+    public void setCashier(String cashier) {
+        this.cashier = cashier;
     }
 
     public LocalDate getDate() {

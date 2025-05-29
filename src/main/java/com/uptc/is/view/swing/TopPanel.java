@@ -1,5 +1,6 @@
-package com.uptc.is.view;
+package com.uptc.is.view.swing;
 
+import com.uptc.is.util.FileOpener;
 import com.uptc.is.view.custom_components.CustomButton;
 
 import javax.swing.*;
@@ -39,7 +40,7 @@ public class TopPanel extends JPanel {
         muButton.setColors(new Color(92, 205, 87  ), new Color(124, 231, 119  ));
         muButton.setTextColor(Color.WHITE);
         muButton.setButtonSize( 200, 30);
-        muButton.setClickAction(e -> new OpenFile("M.U. PS9.pdf"));
+        muButton.setClickAction(e -> new FileOpener("M.U. PS9.pdf"));
         gbc.gridx = 4; gbc.gridy = 0;
         this.add(muButton, gbc);
 
