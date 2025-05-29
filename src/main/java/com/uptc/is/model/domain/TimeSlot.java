@@ -2,21 +2,19 @@ package com.uptc.is.model.domain;
 
 import com.uptc.is.util.IdGenerator;
 
+import java.sql.Time;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 
 public class TimeSlot {
 
-    private final String id;
+    private String id;
     private DayOfWeek day;
     private LocalTime startTime;
     private LocalTime endTime;
 
-    public TimeSlot(DayOfWeek day, LocalTime startTime, LocalTime endTime){
+    public TimeSlot(){
         this.id = IdGenerator.generateId("F");
-        this.day = day;
-        this.startTime = startTime;
-        this.endTime = endTime;
     }
 
     //Getters y Setters

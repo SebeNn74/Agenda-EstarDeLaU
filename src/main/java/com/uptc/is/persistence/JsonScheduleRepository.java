@@ -53,6 +53,7 @@ public class JsonScheduleRepository implements ScheduleRepository {
     public void create(Schedule schedule) {
         lock.writeLock().lock();
         try {
+            schedulesCache.add(schedule);
             jsonService.writeListToFile(filePath, schedulesCache);
         } catch (IOException e) {
             System.err.println("Error crítico al guardar cajeros en JSON (" + filePath + "): " + e.getMessage());

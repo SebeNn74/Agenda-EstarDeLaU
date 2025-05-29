@@ -30,7 +30,7 @@ public class CashierView extends JPanel implements ICashierView {
     }
 
     public void searchCashierRequest(){
-        presenter.searchCashier();
+        presenter.selectCashier();
     }
 
     @Override

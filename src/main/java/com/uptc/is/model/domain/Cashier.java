@@ -85,4 +85,15 @@ public class Cashier {
     public void setClassSchedule(List<Schedule> classSchedule) {
         this.classSchedule = classSchedule;
     }
+
+    @Override
+    public String toString() {
+        return "Cashier{ nuip=" + nuip + '\''+
+                ", studentCode=" + studentCode + '\'' +
+                ", names=" + names + '\'' +
+                ", surnames=" + surnames + '\'' +
+                ", telNumber=" + telNumber + '\'' +
+                ", email=" + email + '\'' +
+                '}';
+    }
 }

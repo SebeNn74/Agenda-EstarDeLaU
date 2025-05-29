@@ -33,7 +33,7 @@ public class ScheduleView  extends JPanel implements IScheduleView {
     }
 
     public void searchScheduleRequest(){
-        presenter.searchSchedule();
+        presenter.selectSchedule();
     }
 
     @Override
@@ -44,6 +44,16 @@ public class ScheduleView  extends JPanel implements IScheduleView {
     @Override
     public void removeSchedule() {
         presenter.removeSchedule();
+    }
+
+    @Override
+    public void createTimeSlot() {
+        presenter.createTimeSlot();
+    }
+
+    @Override
+    public void removeTimeSlot() {
+        presenter.removeTimeSlot();
     }
 
     @Override
@@ -68,6 +78,11 @@ public class ScheduleView  extends JPanel implements IScheduleView {
 
     @Override
     public String getSelectedScheduleId() {
+        return "";
+    }
+
+    @Override
+    public String getSelectedTimeSlotId() {
         return "";
     }
 

@@ -31,14 +31,24 @@ public interface IScheduleView {
     void clearForm();
 
     /**
-     * Solicitud para creación de una franja horaria
+     * Solicitud para creación de un horario
      */
     void createSchedule();
 
     /**
-     * Solicitud para eliminación de una franja horaria
+     * Solicitud para eliminación de un horario
      */
     void removeSchedule();
+
+    /**
+     * Solicitud para creación de una franja horaria
+     */
+    void createTimeSlot();
+
+    /**
+     * Solicitud para eliminación de una franja horaria
+     */
+    void removeTimeSlot();
 
     /**
      * Obtiene la fecha seleccionada por el usuario.
@@ -66,10 +76,17 @@ public interface IScheduleView {
 
     /**
      * Obtiene el ID del horario actualmente seleccionado en la lista/tabla.
-     * Usado para identificar qué horario se quiere editar o eliminar.
+     * Usado para identificar qué horario se quiere eliminar.
      * @return El ID del horario seleccionado, o null si no hay selección.
      */
     String getSelectedScheduleId();
+
+    /**
+     * Obtiene el ID de la franja horaria actualmente seleccionado en el horario.
+     * Usado para identificar qué franja horaria se quiere eliminar.
+     * @return El ID de la franja horaria seleccionada, o null si no hay selección.
+     */
+    String getSelectedTimeSlotId();
 
     /**
      * Rellena los campos del input con los datos de un horario específico (para edición).

@@ -19,6 +19,29 @@ public class CashierPresenter {
         this.view.setPresenter(this);
     }
 
+    public void test() {
+        Cashier cashier = new Cashier("1056798612", "202211892");
+        cashier.setNames("Sebastian");
+        cashier.setSurnames("Niño Niño");
+        cashier.setTelNumber("3124033131");
+        cashier.setEmail("sebastian.nino06@gmail.com");
+
+        Cashier cashier2 = new Cashier("1020304050", "202211892");
+        cashier2.setNames("Juan Manuel");
+        cashier2.setSurnames("Alba Novoa");
+        cashier2.setTelNumber("312000000");
+        cashier2.setEmail("juan.alba02@gmail.com");
+
+        if (cashierRepo.searchById(cashier.getNuip()).isEmpty()) {
+            cashierRepo.create(cashier);
+            System.out.println(cashier);
+        }
+        if (cashierRepo.searchById(cashier2.getNuip()).isEmpty()) {
+            cashierRepo.create(cashier2);
+            System.out.println(cashier2);
+        }
+    }
+
     public void showCashiers(){
         view.displayCashierList(cashierRepo.getAll());
     }
@@ -29,6 +52,7 @@ public class CashierPresenter {
                 cashierRepo.create(madeCashier());
                 view.displayCashierList(cashierRepo.getAll());
                 view.clearForm();
+                System.out.println("Cajero "+view.getNuipInput()+" creado");
             }else{
                 String message = "Ya existe un empleado con el mismo número de identificación";
                 view.displayError("Cajero (Humano) Existente",message);
@@ -45,12 +69,13 @@ public class CashierPresenter {
         return cashier;
     }
 
-    public void searchCashier(){
+    public void selectCashier(){
         String message;
         if(view.getNuipInput().isEmpty()){
             Optional<Cashier> cashier = cashierRepo.searchById(view.getNuipInput());
             if(cashier.isPresent()){
                 view.showCashierDetails(cashier.get());
+                System.out.println("Cajero "+view.getNuipInput()+" encontrado");
             }else{
                 message = "No se ha registrado ningun cajero (humano) con ese número de identidad";
                 view.displayError("Titulo",message);
@@ -65,6 +90,7 @@ public class CashierPresenter {
         String message;
         if(validCashier()){
             cashierRepo.update(madeCashier());
+            System.out.println("Cajero "+view.getNuipInput()+" actualizado");
             message = "Los cambios en el cajero (humano) se guardaron con exito";
             view.displayMessage("Titulo",message);
         }
@@ -72,8 +98,8 @@ public class CashierPresenter {
 
     public void removeCashier(){
         String message;
-
         cashierRepo.remove(view.getNuipInput());
+        System.out.println("Cajero "+view.getNuipInput()+" eliminado");
         message = "El registro del cajero (humano) se eliminó con exito";
         view.displayMessage("Titulo",message);
     }

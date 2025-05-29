@@ -53,6 +53,7 @@ public class JsonCashierRepository implements CashierRepository {
     public void create(Cashier cashier) {
         lock.writeLock().lock();
         try {
+            cashiersCache.add(cashier);
             jsonService.writeListToFile(filePath, cashiersCache);
         } catch (IOException e) {
             System.err.println("Error crítico al guardar cajeros en JSON (" + filePath + "): " + e.getMessage());

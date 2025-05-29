@@ -12,12 +12,8 @@ public class Schedule {
     private LocalDate date;
     private HashMap<String, TimeSlot> timeSlots;
 
-    public Schedule() {}
-
-    public Schedule(String id, LocalDate date){
+    public Schedule() {
         this.id = IdGenerator.generateId("H");
-        this.date = date;
-        this.timeSlots = new HashMap<>();
     }
 
     //Añadir nueva franja horaria
@@ -63,5 +59,7 @@ public class Schedule {
     public void setTimeSlots(HashMap<String, TimeSlot> timeSlots) {
         this.timeSlots = timeSlots;
     }
+
+
 
 }
