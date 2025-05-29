@@ -3,13 +3,6 @@ package com.uptc.is.presenter;
 import com.uptc.is.model.domain.Cashier;
 import com.uptc.is.util.FileOpener;
 import com.uptc.is.view.contracts.IMainView;
-import com.uptc.is.view.custom_components.EditProcessWindow;
-import com.uptc.is.view.custom_components.MessageDialog;
-import com.uptc.is.view.custom_components.SearchWindow;
-import com.uptc.is.view.swing.View;
-
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class MainPresenter {
 
