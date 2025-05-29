@@ -2,14 +2,20 @@ package com.uptc.is.view.swing;
 
 import com.uptc.is.model.domain.Schedule;
 import com.uptc.is.model.domain.ScheduleType;
+import com.uptc.is.presenter.SchedulePresenter;
 import com.uptc.is.view.contracts.IScheduleView;
+import com.uptc.is.view.custom_components.MessageDialog;
 
+import javax.swing.*;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
-public class ScheduleView implements IScheduleView {
+public class ScheduleView  extends JPanel implements IScheduleView {
+
+    private SchedulePresenter presenter;
+    private JFrame frame;
 
     @Override
     public void displaySchedules(List<Schedule> schedules) {
@@ -24,6 +30,20 @@ public class ScheduleView implements IScheduleView {
     @Override
     public void clearForm() {
 
+    }
+
+    public void searchScheduleRequest(){
+        presenter.searchSchedule();
+    }
+
+    @Override
+    public void createSchedule() {
+        presenter.createSchedule();
+    }
+
+    @Override
+    public void removeSchedule() {
+        presenter.removeSchedule();
     }
 
     @Override
@@ -57,22 +77,27 @@ public class ScheduleView implements IScheduleView {
     }
 
     @Override
-    public void displayErrorMessage(String message) {
-
+    public void displayError(String title, String message) {
+        new MessageDialog(this.frame, message, MessageDialog.MessageType.ERROR);
     }
 
     @Override
-    public void displaySuccessMessage(String message) {
-
+    public void displayMessage(String title, String message) {
+        new MessageDialog(this.frame, message, MessageDialog.MessageType.SUCCESS);
     }
 
     @Override
-    public void closeView() {
-
+    public void setPresenter(SchedulePresenter presenter) {
+        this.presenter = presenter;
     }
 
     @Override
-    public void setPresenter(Object presenter) {
+    public JPanel getPanel() {
+        return this;
+    }
 
+    @Override
+    public void setParentFrame(JFrame parentFrame) {
+        this.frame = parentFrame;
     }
 }

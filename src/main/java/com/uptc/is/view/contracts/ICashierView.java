@@ -2,7 +2,9 @@ package com.uptc.is.view.contracts;
 
 import com.uptc.is.model.domain.Cashier;
 import com.uptc.is.model.domain.ScheduleType;
+import com.uptc.is.presenter.CashierPresenter;
 
+import javax.swing.*;
 import java.util.List;
 
 public interface ICashierView {
@@ -11,12 +13,27 @@ public interface ICashierView {
      * Muestra una lista de cajeros.
      * @param cashiers Lista de objetos Cashier a mostrar.
      */
-    void displayCashiers(List<Cashier> cashiers);
+    void displayCashierList(List<Cashier> cashiers);
 
     /**
      * Limpia los campos del input de entrada/edición de datos del cajero.
      */
     void clearForm();
+
+    /**
+     * Solicitud para creación de un Cashier
+     */
+    void createCashier();
+
+    /**
+     * Solicitud para modificación de un Cashier
+     */
+    void updateCashier();
+
+    /**
+     * Solicitud para eliminación de un Cashier
+     */
+    void removeCashier();
 
     /**
      * Obtiene el NUIP ingresado por el usuario en el input.
@@ -70,13 +87,13 @@ public interface ICashierView {
      * Muestra un mensaje de error específico de la gestión de cajeros.
      * @param message El mensaje de error a mostrar.
      */
-    void displayErrorMessage(String message);
+    void displayError(String title, String message);
 
     /**
      * Muestra un mensaje de éxito específico de la gestión de cajeros.
      * @param message El mensaje de éxito a mostrar.
      */
-    void displaySuccessMessage(String message);
+    void displayMessage(String title, String message);
 
     /**
      * Abre la vista o diálogo para gestionar los horarios (laborales o de clase) de un cajero específico.
@@ -90,6 +107,10 @@ public interface ICashierView {
      * @param presenter El presentador que controlará esta vista.
      * (Se podría usar una interfaz ICashierPresenter específica)
      */
-    void setPresenter(Object presenter); // Reemplazar Object con ICashierPresenter
+    void setPresenter(CashierPresenter presenter);
+
+    JPanel getPanel();
+
+    void setParentFrame(JFrame parentFrame);
 
 }

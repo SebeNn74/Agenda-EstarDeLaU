@@ -10,12 +10,12 @@ import java.awt.event.KeyEvent;
 
 public class TopPanel extends JPanel {
 
-    public TopPanel(){
+    public TopPanel(MainView mainView){
         this.setLayout(new GridBagLayout());
-        this.configPanel();
+        this.configPanel(mainView);
     }
 
-    private void configPanel(){
+    private void configPanel(MainView mainView){
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5);
         gbc.fill = GridBagConstraints.NONE;
@@ -40,7 +40,7 @@ public class TopPanel extends JPanel {
         muButton.setColors(new Color(92, 205, 87  ), new Color(124, 231, 119  ));
         muButton.setTextColor(Color.WHITE);
         muButton.setButtonSize( 200, 30);
-        muButton.setClickAction(e -> new FileOpener("M.U. PS9.pdf"));
+        muButton.setClickAction(e -> mainView.openUserManual());
         gbc.gridx = 4; gbc.gridy = 0;
         this.add(muButton, gbc);
 
@@ -49,7 +49,7 @@ public class TopPanel extends JPanel {
         exitButton.setColors(new Color(200, 50, 50), new Color(255, 100, 100));
         exitButton.setTextColor(Color.WHITE);
         exitButton.setButtonSize( 125, 30);
-        exitButton.setClickAction(e -> System.exit(0));
+        exitButton.setClickAction(e -> mainView.closeView());
         gbc.gridx = 5; gbc.gridy = 0;
         this.add(exitButton, gbc);
 

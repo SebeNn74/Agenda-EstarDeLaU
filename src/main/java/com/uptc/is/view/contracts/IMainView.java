@@ -15,6 +15,11 @@ public interface IMainView {
     void closeView();
 
     /**
+     * Muestra el panel (view) enviado por parametro.
+     */
+    void showPanelView(String key);
+
+    /**
      * Navega o muestra la sección de gestión de cajeros.
      */
     void showCashierManagement();

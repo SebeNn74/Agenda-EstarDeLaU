@@ -2,7 +2,9 @@ package com.uptc.is.view.contracts;
 
 import com.uptc.is.model.domain.Schedule;
 import com.uptc.is.model.domain.ScheduleType;
+import com.uptc.is.presenter.SchedulePresenter;
 
+import javax.swing.*;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -27,6 +29,16 @@ public interface IScheduleView {
      * Limpia los campos del input de entrada/edición de datos del horario.
      */
     void clearForm();
+
+    /**
+     * Solicitud para creación de una franja horaria
+     */
+    void createSchedule();
+
+    /**
+     * Solicitud para eliminación de una franja horaria
+     */
+    void removeSchedule();
 
     /**
      * Obtiene la fecha seleccionada por el usuario.
@@ -69,23 +81,23 @@ public interface IScheduleView {
      * Muestra un mensaje de error específico de la gestión de horarios.
      * @param message El mensaje de error a mostrar.
      */
-    void displayErrorMessage(String message);
+    void displayError(String title, String message);
 
     /**
      * Muestra un mensaje de éxito específico de la gestión de horarios.
      * @param message El mensaje de éxito a mostrar.
      */
-    void displaySuccessMessage(String message);
-
-    /**
-     * Cierra la vista de gestión de horarios.
-     */
-    void closeView();
+    void displayMessage(String title, String message);
 
     /**
      * Establece el presentador para esta vista.
      * @param presenter El presentador que controlará esta vista.
      * (Se podría usar una interfaz ISchedulePresenter específica)
      */
-    void setPresenter(Object presenter); // Reemplazar Object con ISchedulePresenter
+    void setPresenter(SchedulePresenter presenter);
+
+    JPanel getPanel();
+
+    void setParentFrame(JFrame parentFrame);
+
 }

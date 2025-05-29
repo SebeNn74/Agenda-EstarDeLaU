@@ -2,20 +2,45 @@ package com.uptc.is.view.swing;
 
 import com.uptc.is.model.domain.Cashier;
 import com.uptc.is.model.domain.ScheduleType;
+import com.uptc.is.presenter.CashierPresenter;
 import com.uptc.is.view.contracts.ICashierView;
+import com.uptc.is.view.custom_components.MessageDialog;
 
+import javax.swing.*;
 import java.util.List;
 
-public class CashierView implements ICashierView {
+public class CashierView extends JPanel implements ICashierView {
+
+    private CashierPresenter presenter;
+    private JFrame frame;
 
     @Override
-    public void displayCashiers(List<Cashier> cashiers) {
+    public void displayCashierList(List<Cashier> cashiers) {
 
     }
 
     @Override
     public void clearForm() {
 
+    }
+
+    @Override
+    public void createCashier() {
+        presenter.createCashier();
+    }
+
+    public void searchCashierRequest(){
+        presenter.searchCashier();
+    }
+
+    @Override
+    public void updateCashier() {
+        presenter.updateCashier();
+    }
+
+    @Override
+    public void removeCashier() {
+        presenter.removeCashier();
     }
 
     @Override
@@ -59,13 +84,13 @@ public class CashierView implements ICashierView {
     }
 
     @Override
-    public void displayErrorMessage(String message) {
-
+    public void displayError(String title, String message) {
+        new MessageDialog(this.frame, message, MessageDialog.MessageType.ERROR);
     }
 
     @Override
-    public void displaySuccessMessage(String message) {
-
+    public void displayMessage(String title, String message) {
+        new MessageDialog(frame, message, MessageDialog.MessageType.SUCCESS);
     }
 
     @Override
@@ -74,8 +99,18 @@ public class CashierView implements ICashierView {
     }
 
     @Override
-    public void setPresenter(Object presenter) {
+    public void setPresenter(CashierPresenter presenter) {
+        this.presenter = presenter;
+    }
 
+    @Override
+    public JPanel getPanel() {
+        return this;
+    }
+
+    @Override
+    public void setParentFrame(JFrame parentFrame) {
+        this.frame = parentFrame;
     }
 
 }

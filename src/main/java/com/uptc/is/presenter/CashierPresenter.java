@@ -1,24 +1,108 @@
 package com.uptc.is.presenter;
 
+import com.uptc.is.model.domain.Cashier;
 import com.uptc.is.model.repository.CashierRepository;
 import com.uptc.is.view.contracts.ICashierView;
 
+import java.util.Optional;
+import java.util.function.Consumer;
+
 public class CashierPresenter {
 
-    private CashierRepository cashierRepository;
-    private ICashierView cashierView;
+    private CashierRepository cashierRepo;
+    private ICashierView view;
+    private Consumer<Cashier> onCashierSelected; // Listener
 
     public CashierPresenter(CashierRepository cashierRepository, ICashierView cashierView){
-        this.cashierRepository = cashierRepository;
-        this.cashierView = cashierView;
+        this.cashierRepo = cashierRepository;
+        this.view = cashierView;
+        this.view.setPresenter(this);
     }
 
-    private void showCashiers(){
-
+    public void showCashiers(){
+        view.displayCashierList(cashierRepo.getAll());
     }
 
-    private void addCashier(){
+    public void createCashier(){
+        if(validCashier()){
+            if(cashierRepo.searchById(view.getNuipInput()).isEmpty()){
+                cashierRepo.create(madeCashier());
+                view.displayCashierList(cashierRepo.getAll());
+                view.clearForm();
+            }else{
+                String message = "Ya existe un empleado con el mismo número de identificación";
+                view.displayError("Cajero (Humano) Existente",message);
+            }
+        }
+    }
 
+    private Cashier madeCashier(){
+        Cashier cashier = new Cashier(view.getNuipInput(),view.getStudentCodeInput());
+        cashier.setNames(view.getNamesInput());
+        cashier.setSurnames(view.getSurnamesInput());
+        cashier.setTelNumber(view.getTelNumberInput());
+        cashier.setEmail(view.getTelNumberInput());
+        return cashier;
+    }
+
+    public void searchCashier(){
+        String message;
+        if(view.getNuipInput().isEmpty()){
+            Optional<Cashier> cashier = cashierRepo.searchById(view.getNuipInput());
+            if(cashier.isPresent()){
+                view.showCashierDetails(cashier.get());
+            }else{
+                message = "No se ha registrado ningun cajero (humano) con ese número de identidad";
+                view.displayError("Titulo",message);
+            }
+        }else{
+            message = "Ingrese el número de identidad del cajero (humano)";
+            view.displayError("Titulo",message);
+        }
+    }
+
+    public void updateCashier(){
+        String message;
+        if(validCashier()){
+            cashierRepo.update(madeCashier());
+            message = "Los cambios en el cajero (humano) se guardaron con exito";
+            view.displayMessage("Titulo",message);
+        }
+    }
+
+    public void removeCashier(){
+        String message;
+
+        cashierRepo.remove(view.getNuipInput());
+        message = "El registro del cajero (humano) se eliminó con exito";
+        view.displayMessage("Titulo",message);
+    }
+
+    private boolean validCashier(){
+        String field;
+        if(view.getNuipInput().isEmpty()){
+            field = "Número de identidad";
+        } else if (view.getStudentCodeInput().isEmpty()) {
+            field = "Código estudiantil";
+        } else if (view.getNamesInput().isEmpty()) {
+            field = "Nombres";
+        } else if (view.getSurnamesInput().isEmpty()) {
+            field = "Apellidos";
+        } else if (view.getTelNumberInput().isEmpty()) {
+            field = "Número de teléfono";
+        } else if (view.getEmailInput().isEmpty()) {
+            field = "Correo electrónico";
+        }else{
+            return true;
+        }
+        //Si algun campo de las entradas esta vacio
+        String message = "El "+field+" del cajero (humano) no puede estar vacío";
+        view.displayError("Titulo", message);
+        return false;
+    }
+
+    public void setOnCashierSelected(Consumer<Cashier> listener) {
+        this.onCashierSelected = listener;
     }
 
 }

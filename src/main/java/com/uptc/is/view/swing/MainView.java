@@ -11,22 +11,24 @@ import java.awt.*;
 
 public class MainView extends JFrame implements IMainView {
 
-    private MainPresenter mainPresenter;
+    private MainPresenter presenter;
 
     public static int width = 1200;
     public static int height = 730;
-    private ICashierView cashierPanel;
-    private IScheduleView schedulePanel;
-    private LeftPanel leftPanel;
-    private RightPanel rightPanel;
+
+    private TopPanel topPanel;
+    private SideBarPanel sideBarPanel;
+    private CardLayout cardLayout;
+    private JPanel contentPanel;
+    private ICashierView cashierView;
+    private IScheduleView scheduleView;
 
     public MainView(ICashierView cashierView, IScheduleView scheduleView){
-        this.cashierPanel = cashierView;
-        this.schedulePanel = scheduleView;
+        this.cashierView = cashierView;
+        this.scheduleView = scheduleView;
         frameConfig();
         configTopPanel();
         configMainPanel();
-        showView();
     }
 
     public void frameConfig(){
@@ -49,7 +51,7 @@ public class MainView extends JFrame implements IMainView {
     }
 
     private void configTopPanel(){
-        TopPanel topPanel = new TopPanel();
+        topPanel = new TopPanel(this);
         topPanel.setBackground(new Color(136, 165, 255));
         topPanel.setPreferredSize(new Dimension(width, 60));
 
@@ -57,19 +59,36 @@ public class MainView extends JFrame implements IMainView {
     }
 
     private void configMainPanel(){
-        JPanel panelCentral = new JPanel(new BorderLayout(10, 10));
+        JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
 
-        leftPanel = new LeftPanel(null);
+        sideBarPanel = new SideBarPanel(this);
+        sideBarPanel.setPreferredSize(new Dimension((int) (width * 0.23), 0));
+
+        LeftPanel leftPanel = new LeftPanel(null);
         leftPanel.setPreferredSize(new Dimension((int) (width * 0.23), 0));
 
-        rightPanel = new RightPanel(null);
-        rightPanel.setBackground(new Color(209, 209, 209));
-        rightPanel.setPreferredSize(new Dimension((int) (width * 0.5), 0));
+        cardLayout = new CardLayout();
+        contentPanel = new JPanel(cardLayout);
+        contentPanel.add(new RightPanel(null), "main");
+        contentPanel.add(cashierView.getPanel(), "cashiers");
+        contentPanel.add(scheduleView.getPanel(), "schedules");
 
-        panelCentral.add(leftPanel, BorderLayout.WEST);
-        panelCentral.add(rightPanel, BorderLayout.CENTER);
+        // Default
+        cardLayout.show(contentPanel, "main");
 
-        this.add(panelCentral, BorderLayout.CENTER);
+        mainPanel.add(sideBarPanel, BorderLayout.WEST);
+        mainPanel.add(contentPanel, BorderLayout.CENTER);
+
+        this.add(mainPanel, BorderLayout.CENTER);
+    }
+
+    @Override
+    public void showPanelView(String key) {
+        cardLayout.show(contentPanel, key);
+    }
+
+    public void openUserManual(){
+        this.presenter.openUserManual();
     }
 
     @Override
@@ -79,7 +98,7 @@ public class MainView extends JFrame implements IMainView {
 
     @Override
     public void closeView() {
-        this.setVisible(false);
+        this.presenter.closeApp();
     }
 
     @Override
@@ -94,17 +113,17 @@ public class MainView extends JFrame implements IMainView {
 
     @Override
     public void displayError(String title, String message) {
-        new MessageDialog(this, "ADVERTENCIA", MessageDialog.MessageType.ERROR);
+        new MessageDialog(this, message, MessageDialog.MessageType.ERROR);
     }
 
     @Override
     public void displayMessage(String title, String message) {
-        new MessageDialog(this, "INFORMACIÓN", MessageDialog.MessageType.SUCCESS);
+        new MessageDialog(this, message, MessageDialog.MessageType.SUCCESS);
     }
 
     @Override
     public void setPresenter(MainPresenter presenter) {
-        mainPresenter = presenter;
+        this.presenter = presenter;
     }
 
 }

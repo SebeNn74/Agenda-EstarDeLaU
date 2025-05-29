@@ -33,7 +33,7 @@ public class Main {
         SchedulePresenter schedulePresenter = new SchedulePresenter(scheduleRepository, scheduleView);
 
         IMainView mainView = new MainView(cashierView, scheduleView);
-        MainPresenter mainPresenter = new MainPresenter(mainView);
+        new MainPresenter(mainView, cashierPresenter, schedulePresenter);
 
     }
 
