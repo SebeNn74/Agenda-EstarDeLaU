@@ -18,7 +18,7 @@ public class MainPresenter {
         this.schedulePresenter = schedulePresenter;
 
         this.mainView.setPresenter(this);
-        //this.mainView.showView();
+        this.mainView.showView();
         setup();
     }
 

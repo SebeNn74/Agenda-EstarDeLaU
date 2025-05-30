@@ -47,4 +47,13 @@ public class TimeSlot {
         this.endTime = endTime;
     }
 
+    @Override
+    public String toString() {
+        return "TimeSlot{" +
+                "id='" + id +
+                ", day=" + day +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
+                '}';
+    }
 }

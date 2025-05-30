@@ -14,11 +14,12 @@ public class Schedule {
 
     public Schedule() {
         this.id = IdGenerator.generateId("H");
+        this.timeSlots = new HashMap<>();
     }
 
     //Añadir nueva franja horaria
     public boolean addTimeSlot(TimeSlot timeSlot){
-        if(timeSlots.containsKey(timeSlot.getID())){
+        if(!timeSlots.containsKey(timeSlot.getID())){
             timeSlots.put(timeSlot.getID(), timeSlot );
             return true;
         }
@@ -27,7 +28,7 @@ public class Schedule {
 
     //Eliminar franja horaria
     public boolean removeTimeSlot(String timeSlotID){
-        return false;
+        return timeSlots.remove(timeSlotID) != null;
     }
 
     //Getters y Setters
@@ -60,6 +61,13 @@ public class Schedule {
         this.timeSlots = timeSlots;
     }
 
-
-
+    @Override
+    public String toString() {
+        return "Schedule{" +
+                "id='" + id + '\'' +
+                ", cashier='" + cashier + '\'' +
+                ", date=" + date +
+                ", timeSlots=" + timeSlots +
+                '}';
+    }
 }

@@ -6,6 +6,8 @@ import com.uptc.is.model.domain.TimeSlot;
 import com.uptc.is.model.repository.ScheduleRepository;
 import com.uptc.is.view.contracts.IScheduleView;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Optional;
 
 public class SchedulePresenter {
@@ -14,6 +16,7 @@ public class SchedulePresenter {
     private IScheduleView view;
     private Cashier currentCashier;
     private Schedule currentSchedule;
+    private TimeSlot currentTimeSlot;
 
     public SchedulePresenter(ScheduleRepository scheduleRepository, IScheduleView scheduleView){
         this.scheduleRepo = scheduleRepository;
@@ -21,6 +24,38 @@ public class SchedulePresenter {
         this.view.setPresenter(this);
     }
 
+    public void test(){
+        Cashier cashier = new Cashier("1056798612", "202211892");
+        cashier.setNames("Sebastian");
+        cashier.setSurnames("Niño Niño");
+        cashier.setTelNumber("3124033131");
+        cashier.setEmail("sebastian.nino06@gmail.com");
+
+        setCashier(cashier);
+
+        Schedule schedule = new Schedule();
+        schedule.setCashier(currentCashier.getNuip());
+        schedule.setDate(LocalDate.of(2004, 12, 7));
+        scheduleRepo.create(schedule);
+        System.out.println(schedule);
+
+        LocalDate date = LocalDate.of(2026, 5, 16);
+
+        Schedule schedule2 = new Schedule();
+        schedule2.setCashier(currentCashier.getNuip());
+        schedule2.setDate(date);
+        scheduleRepo.create(schedule2);
+        System.out.println(schedule2);
+
+        TimeSlot ts = new TimeSlot();
+        ts.setDay(date.getDayOfWeek());
+        ts.setStartTime(LocalTime.of(9,0));
+        ts.setEndTime(LocalTime.of(11,0));
+        schedule2.addTimeSlot(ts);
+        scheduleRepo.update(schedule2);
+        System.out.println(schedule2);
+
+    }
 
     public void showSchedules(){
         view.displaySchedules(scheduleRepo.getAll());
@@ -28,17 +63,19 @@ public class SchedulePresenter {
 
     public void createSchedule(){
         if(validSchedule()){
-            scheduleRepo.create(madeSchedule());
+            madeSchedule();
+            scheduleRepo.create(currentSchedule);
             view.displaySchedules(scheduleRepo.getAll());
             view.clearForm();
+            System.out.println("Horario "+currentSchedule.getID()+" creado");
         }
     }
 
-    private Schedule madeSchedule(){
+    private void madeSchedule(){
         Schedule schedule = new Schedule();
         schedule.setCashier(currentCashier.getNuip());
         schedule.setDate(view.getDateInput());
-        return schedule;
+        currentSchedule = schedule;
     }
 
     public void selectSchedule(){
@@ -48,6 +85,7 @@ public class SchedulePresenter {
             if(schedule.isPresent()){
                 currentSchedule = schedule.get();
                 view.showScheduleDetails(schedule.get());
+                System.out.println("Horario "+currentSchedule.getID()+" encontrado");
             }else{
                 message = "No se ha registrado ningun horario con ese id";
                 view.displayError("Titulo",message);
@@ -60,9 +98,10 @@ public class SchedulePresenter {
 
     public void removeSchedule(){
         String message;
-        scheduleRepo.remove(view.getSelectedScheduleId());
+        scheduleRepo.remove(currentSchedule.getID());
         message = "El registro del horario se eliminó con exito";
         view.displayMessage("Titulo",message);
+        System.out.println("Horario "+currentSchedule.getID()+" eliminado");
     }
 
     private boolean validSchedule(){
@@ -82,27 +121,32 @@ public class SchedulePresenter {
 
     public void createTimeSlot(){
         if (validTimeSlot()){
-            currentSchedule.addTimeSlot(madeTimeSlot());
-            scheduleRepo.update(currentSchedule);
-            view.displaySchedules(scheduleRepo.getAll());
-            view.clearForm();
+            madeTimeSlot();
+            if(currentSchedule.addTimeSlot(currentTimeSlot)){
+                scheduleRepo.update(currentSchedule);
+                view.displaySchedules(scheduleRepo.getAll());
+                view.clearForm();
+                System.out.println("Franja "+currentTimeSlot.getID()+" creada");
+            }
         }
     }
 
-    private TimeSlot madeTimeSlot(){
+    private void madeTimeSlot(){
         TimeSlot timeSlot = new TimeSlot();
         timeSlot.setDay(view.getDayOfWeekInput());
         timeSlot.setStartTime(view.getStartTimeInput());
         timeSlot.setEndTime(view.getEndTimeInput());
-        return timeSlot;
+        currentTimeSlot = timeSlot;
     }
 
     public void removeTimeSlot(){
         String message;
-        currentSchedule.removeTimeSlot(view.getSelectedTimeSlotId());
-        scheduleRepo.update(currentSchedule);
-        message = "La franja horaria se eliminó con exito";
-        view.displayMessage("Titulo",message);
+        if(currentSchedule.removeTimeSlot(view.getSelectedTimeSlotId())){
+            scheduleRepo.update(currentSchedule);
+            message = "La franja horaria se eliminó con exito";
+            view.displayMessage("Titulo",message);
+            System.out.println("Franja "+currentSchedule.getID()+" eliminada");
+        }
     }
 
     private boolean validTimeSlot(){

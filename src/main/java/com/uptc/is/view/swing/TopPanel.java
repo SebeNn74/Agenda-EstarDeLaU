@@ -1,6 +1,5 @@
 package com.uptc.is.view.swing;
 
-import com.uptc.is.util.FileOpener;
 import com.uptc.is.view.custom_components.CustomButton;
 
 import javax.swing.*;
