@@ -1,6 +1,7 @@
 package com.uptc.is.view.swing;
 
-import com.uptc.is.view.custom_components.CustomButton;
+import com.uptc.is.util.FontLoader;
+import com.uptc.is.view.custom_components.ModernButton;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,6 +13,7 @@ public class TopPanel extends JPanel {
     public TopPanel(MainView mainView){
         this.setLayout(new GridBagLayout());
         this.configPanel(mainView);
+        this.setBackground(Color.BLACK);
     }
 
     private void configPanel(MainView mainView){
@@ -21,8 +23,9 @@ public class TopPanel extends JPanel {
         gbc.weightx = 1;
 
         //Label : Titulo
-        JLabel title = new JLabel("AGENDAMIENTO LABORAL: ESTAR DE LA U");
-        title.setFont(new Font("Arial", Font.BOLD, 20));
+        JLabel title = new JLabel("AGENDAMIENTO LABORAL : ESTAR DE LA U");
+        title.setFont(FontLoader.loadFont("/fonts/Roboto-SemiBold.ttf", 21f));
+        title.setForeground(Color.WHITE);
         gbc.gridx = 0; gbc.gridy = 0;
         this.add(title, gbc);
 
@@ -35,22 +38,25 @@ public class TopPanel extends JPanel {
         this.add(new JLabel(), gbc);
 
         //Boton: Manual de usuario
-        CustomButton muButton = new CustomButton("MANUAL DE USUARIO");
-        muButton.setColors(new Color(92, 205, 87  ), new Color(124, 231, 119  ));
-        muButton.setTextColor(Color.WHITE);
-        muButton.setButtonSize( 200, 30);
-        muButton.setClickAction(e -> mainView.openUserManual());
+        ModernButton muBtn = new ModernButton("MANUAL DE USUARIO");
+
+        muBtn.setButtonSize( 200, 30);
+        muBtn.setClickAction(e -> mainView.openUserManual());
         gbc.gridx = 4; gbc.gridy = 0;
-        this.add(muButton, gbc);
+        this.add(muBtn, gbc);
 
         //Boton: Salir
-        CustomButton exitButton = new CustomButton("SALIR [Esc]");
-        exitButton.setColors(new Color(200, 50, 50), new Color(255, 100, 100));
-        exitButton.setTextColor(Color.WHITE);
-        exitButton.setButtonSize( 125, 30);
-        exitButton.setClickAction(e -> mainView.closeView());
+        ModernButton exitBtn = new ModernButton("SALIR [Esc]");
+        exitBtn.setNormalBackgroundColor(new Color(220, 53, 69));
+        exitBtn.setHoverBackgroundColor(new Color(227, 78, 91));
+        exitBtn.setPressedBackgroundColor(new Color(194, 47, 60));
+        exitBtn.setBorderColor(new Color(220, 53, 69));
+        exitBtn.setNormalForegroundColor(Color.WHITE);
+        exitBtn.setHoverForegroundColor(Color.WHITE);
+        exitBtn.setButtonSize( 125, 30);
+        exitBtn.setClickAction(e -> mainView.closeView());
         gbc.gridx = 5; gbc.gridy = 0;
-        this.add(exitButton, gbc);
+        this.add(exitBtn, gbc);
 
         getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
                 .put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "salir");
@@ -58,7 +64,7 @@ public class TopPanel extends JPanel {
         getActionMap().put("salir", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                exitButton.doClick();
+                exitBtn.doClick();
             }
         });
     }

@@ -32,10 +32,6 @@ public class ScheduleView  extends JPanel implements IScheduleView {
 
     }
 
-    public void searchScheduleRequest(){
-        presenter.selectSchedule();
-    }
-
     @Override
     public void createSchedule() {
         presenter.createSchedule();

@@ -46,6 +46,7 @@ public class CustomButton extends JButton {
     public void setButtonSize(int width, int height) {
         setPreferredSize(new Dimension(width, height));
     }
+
 }
 
 

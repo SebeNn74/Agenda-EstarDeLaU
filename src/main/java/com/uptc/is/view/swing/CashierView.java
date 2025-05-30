@@ -29,10 +29,6 @@ public class CashierView extends JPanel implements ICashierView {
         presenter.createCashier();
     }
 
-    public void searchCashierRequest(){
-        presenter.selectCashier();
-    }
-
     @Override
     public void updateCashier() {
         presenter.updateCashier();

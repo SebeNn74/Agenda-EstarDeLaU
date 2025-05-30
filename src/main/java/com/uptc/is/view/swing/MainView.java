@@ -52,7 +52,6 @@ public class MainView extends JFrame implements IMainView {
 
     private void configTopPanel(){
         topPanel = new TopPanel(this);
-        topPanel.setBackground(new Color(136, 165, 255));
         topPanel.setPreferredSize(new Dimension(width, 60));
 
         this.add(topPanel, BorderLayout.NORTH);
