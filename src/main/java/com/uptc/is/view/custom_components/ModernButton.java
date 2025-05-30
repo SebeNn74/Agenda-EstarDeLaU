@@ -17,6 +17,7 @@ public class ModernButton extends JButton {
     private Color normalForegroundColor = Color.WHITE;
     private Color hoverForegroundColor = Color.WHITE;
     private Color borderColor = new Color(59, 89, 152);
+    private float fontSize = 14f;
 
     // Propiedades de Apariencia
     private int cornerRadius = 20;
@@ -31,9 +32,6 @@ public class ModernButton extends JButton {
         setContentAreaFilled(false);
         setFocusPainted(false);
         setBorderPainted(false);
-
-        Font robotoFont = FontLoader.loadFont("/fonts/Roboto-Bold.ttf", 15f);
-        this.setFont(robotoFont);
 
         setForeground(normalForegroundColor);
 
@@ -57,6 +55,9 @@ public class ModernButton extends JButton {
 
     @Override
     protected void paintComponent(Graphics g) {
+        Font robotoFont = FontLoader.loadFont("/fonts/Roboto-Bold.ttf", fontSize);
+        this.setFont(robotoFont);
+
         Graphics2D g2 = (Graphics2D) g.create();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
@@ -84,35 +85,21 @@ public class ModernButton extends JButton {
 
     // SETTERS de Personalización
 
-    public void setNormalBackgroundColor(Color color) {
-        this.normalBackgroundColor = color;
+    public void setBackgroundColors(Color normalColor, Color hoverColor, Color pressedColor) {
+        this.normalBackgroundColor = normalColor;
+        this.hoverBackgroundColor = hoverColor;
+        this.pressedBackgroundColor = pressedColor;
         repaint();
     }
 
-    public void setHoverBackgroundColor(Color color) {
-        this.hoverBackgroundColor = color;
-        repaint();
-    }
-
-    public void setPressedBackgroundColor(Color color) {
-        this.pressedBackgroundColor = color;
-        repaint();
-    }
-
-    public void setNormalForegroundColor(Color color) {
-        this.normalForegroundColor = color;
-        if (!isHovering) {
-            setForeground(color);
-        }
-        repaint();
-    }
-
-    public void setHoverForegroundColor(Color color) {
-        this.hoverForegroundColor = color;
+    public void setForegroundColors(Color normalColor, Color hoverColor){
+        this.normalForegroundColor = normalColor;
+        this.hoverForegroundColor = hoverColor;
         if (isHovering) {
-            setForeground(color);
+            setForeground(hoverColor);
+        }else{
+            setForeground(normalColor);
         }
-        repaint();
     }
 
     public void setBorderColor(Color color) {
@@ -120,8 +107,8 @@ public class ModernButton extends JButton {
         repaint();
     }
 
-    public void setCornerRadius(int cornerRadius) {
-        this.cornerRadius = cornerRadius;
+    public void setFontSize(float size){
+        this.fontSize = size;
         repaint();
     }
 

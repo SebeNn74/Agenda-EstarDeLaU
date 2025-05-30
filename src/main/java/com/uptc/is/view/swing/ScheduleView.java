@@ -7,6 +7,7 @@ import com.uptc.is.view.contracts.IScheduleView;
 import com.uptc.is.view.custom_components.MessageDialog;
 
 import javax.swing.*;
+import java.awt.*;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -16,6 +17,10 @@ public class ScheduleView  extends JPanel implements IScheduleView {
 
     private SchedulePresenter presenter;
     private JFrame frame;
+
+    public ScheduleView(){
+        this.setBackground(new Color(133, 193, 233));
+    }
 
     @Override
     public void displaySchedules(List<Schedule> schedules) {

@@ -1,13 +1,10 @@
 package com.uptc.is.view.swing;
 
-import com.uptc.is.view.contracts.IMainView;
 import com.uptc.is.view.custom_components.ModernButton;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
 import java.util.Objects;
 
 public class SideBarPanel extends JPanel {
@@ -15,14 +12,14 @@ public class SideBarPanel extends JPanel {
     public SideBarPanel(MainView mainView){
         this.setLayout(new BorderLayout());
         this.setBorder(new EmptyBorder(10, 10, 10, 10));
-        this.setBackground(Color.gray);
+        this.setBackground(Color.BLACK);
         this.configPanel(mainView);
     }
 
     private void configPanel(MainView mainView){
         JPanel menuPanel = new JPanel(new GridBagLayout());
-        menuPanel.setBorder(BorderFactory.createEmptyBorder(25, 0, 25, 0));
-        menuPanel.setBackground(Color.gray);
+        menuPanel.setBorder(BorderFactory.createEmptyBorder(20, 10, 20, 10));
+        menuPanel.setBackground(Color.BLACK);
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(0, 0, 35, 0);
@@ -33,19 +30,22 @@ public class SideBarPanel extends JPanel {
 
         JLabel icon = getLogo();
 
-        ModernButton btnMain = new ModernButton("Inicio");
+        ModernButton btnMain = new ModernButton("INICIO");
         btnMain.setButtonSize( 0, 40);
-        ModernButton btnCashiers = new ModernButton("Cajeros (Empleados)");
+        ModernButton btnCashiers = new ModernButton("CAJEROS (EMPLEADOS)");
         btnCashiers.setButtonSize( 0, 40);
-        ModernButton btnSchedules = new ModernButton("Horarios de Trabajo");
+        ModernButton btnSchedules = new ModernButton("HORARIOS LABORALES");
         btnSchedules.setButtonSize( 0, 40);
-        ModernButton btnGenSchedule = new ModernButton("Calendario General");
+        ModernButton btnGenSchedule = new ModernButton("CALENDARIO GENERAL");
         btnGenSchedule.setButtonSize( 0, 40);
+        ModernButton btnUserManual = new ModernButton("MANUAL DE USUARIO");
+        btnUserManual.setButtonSize( 180, 40);
 
         btnMain.addActionListener(e -> mainView.showPanelView("main"));
         btnCashiers.addActionListener(e -> mainView.showPanelView("cashiers"));
         btnSchedules.addActionListener(e -> mainView.showPanelView("schedules"));
         btnGenSchedule.addActionListener(e -> mainView.showPanelView("genSchedule"));
+        btnUserManual.addActionListener(e -> mainView.openUserManual());
 
         gbc.gridy = 0;
         assert icon != null;
@@ -67,49 +67,20 @@ public class SideBarPanel extends JPanel {
         gbc.fill = GridBagConstraints.NONE;
         gbc.anchor = GridBagConstraints.SOUTH;
         gbc.gridy = 6;
-        menuPanel.add(exitButton(mainView), gbc);
+        menuPanel.add(btnUserManual, gbc);
 
         this.add(menuPanel);
     }
 
     private JLabel getLogo(){
         try {
-            ImageIcon icon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/icons/home_icon.png")));
-            Image scaledImage = icon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+            ImageIcon icon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/icons/logo_estardelau.png")));
+            Image scaledImage = icon.getImage().getScaledInstance(120, 120, Image.SCALE_SMOOTH);
             return new JLabel(new ImageIcon(scaledImage));
         } catch (Exception e) {
-            System.err.println("No se pudo encontrar el ícono en: " + "/icons/home_icon.png");
+            System.err.println("No se pudo encontrar el ícono en: " + "/icons/logo_estardelau.png");
         }
         return null;
-    }
-    
-    private ModernButton exitButton(IMainView mainView){
-        ModernButton exitBtn = getModernButton(mainView);
-
-        getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-                .put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "salir");
-
-        getActionMap().put("salir", new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                exitBtn.doClick();
-            }
-        });
-        
-        return exitBtn;
-    }
-
-    private static ModernButton getModernButton(IMainView mainView) {
-        ModernButton exitBtn = new ModernButton("SALIR");
-        exitBtn.setNormalBackgroundColor(new Color(220, 53, 69));
-        exitBtn.setHoverBackgroundColor(new Color(227, 78, 91));
-        exitBtn.setPressedBackgroundColor(new Color(194, 47, 60));
-        exitBtn.setBorderColor(new Color(220, 53, 69));
-        exitBtn.setNormalForegroundColor(Color.WHITE);
-        exitBtn.setHoverForegroundColor(Color.WHITE);
-        exitBtn.setButtonSize( 110, 35);
-        exitBtn.setClickAction(e -> mainView.closeView());
-        return exitBtn;
     }
 
 }

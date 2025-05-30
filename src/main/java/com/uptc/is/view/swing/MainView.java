@@ -27,8 +27,7 @@ public class MainView extends JFrame implements IMainView {
         this.cashierView = cashierView;
         this.scheduleView = scheduleView;
         frameConfig();
-        configSideBarPanel();
-        configMainPanel();
+        configPanel();
     }
 
     public void frameConfig(){
@@ -50,37 +49,31 @@ public class MainView extends JFrame implements IMainView {
          */
     }
 
-    private void configSideBarPanel(){
+    private void configPanel(){
         sideBarPanel = new SideBarPanel(this);
-        sideBarPanel.setPreferredSize(new Dimension((int) (width * 0.18), height));
+        sideBarPanel.setLayout(new BoxLayout(sideBarPanel, BoxLayout.Y_AXIS));
 
-        this.add(sideBarPanel, BorderLayout.WEST);
-    }
-
-    private void configMainPanel(){
-        JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
+        JPanel mainPanel = new JPanel(new BorderLayout());
 
         topPanel = new TopPanel(this);
-        topPanel.setPreferredSize(new Dimension((int) (width * 0.82), 60));
-
-        LeftPanel leftPanel = new LeftPanel(null);
-        leftPanel.setPreferredSize(new Dimension((int) (width * 0.23), height));
+        topPanel.setPreferredSize(new Dimension(0,60));
 
         cardLayout = new CardLayout();
         contentPanel = new JPanel(cardLayout);
-        contentPanel.setPreferredSize(new Dimension((int) (width * 0.82), 0));
         contentPanel.add(new RightPanel(null), "main");
         contentPanel.add(cashierView.getPanel(), "cashiers");
         contentPanel.add(scheduleView.getPanel(), "schedules");
         contentPanel.add(new RightPanel(null), "genSchedule");
 
-        // Default
-        cardLayout.show(contentPanel, "main");
-
         mainPanel.add(topPanel, BorderLayout.NORTH);
         mainPanel.add(contentPanel, BorderLayout.CENTER);
 
-        this.add(mainPanel, BorderLayout.CENTER);
+        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, sideBarPanel, mainPanel);
+        splitPane.setResizeWeight(0.08);
+        splitPane.setDividerSize(0);
+        splitPane.setContinuousLayout(true);
+
+        this.add(splitPane, BorderLayout.CENTER);
     }
 
     @Override
@@ -94,6 +87,7 @@ public class MainView extends JFrame implements IMainView {
 
     @Override
     public void showView() {
+        cardLayout.show(contentPanel, "main");
         this.setVisible(true);
     }
 
