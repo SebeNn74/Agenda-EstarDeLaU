@@ -27,7 +27,7 @@ public class MainView extends JFrame implements IMainView {
         this.cashierView = cashierView;
         this.scheduleView = scheduleView;
         frameConfig();
-        configTopPanel();
+        configSideBarPanel();
         configMainPanel();
     }
 
@@ -50,32 +50,34 @@ public class MainView extends JFrame implements IMainView {
          */
     }
 
-    private void configTopPanel(){
-        topPanel = new TopPanel(this);
-        topPanel.setPreferredSize(new Dimension(width, 60));
+    private void configSideBarPanel(){
+        sideBarPanel = new SideBarPanel(this);
+        sideBarPanel.setPreferredSize(new Dimension((int) (width * 0.18), height));
 
-        this.add(topPanel, BorderLayout.NORTH);
+        this.add(sideBarPanel, BorderLayout.WEST);
     }
 
     private void configMainPanel(){
         JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
 
-        sideBarPanel = new SideBarPanel(this);
-        sideBarPanel.setPreferredSize(new Dimension((int) (width * 0.23), 0));
+        topPanel = new TopPanel(this);
+        topPanel.setPreferredSize(new Dimension((int) (width * 0.82), 60));
 
         LeftPanel leftPanel = new LeftPanel(null);
-        leftPanel.setPreferredSize(new Dimension((int) (width * 0.23), 0));
+        leftPanel.setPreferredSize(new Dimension((int) (width * 0.23), height));
 
         cardLayout = new CardLayout();
         contentPanel = new JPanel(cardLayout);
+        contentPanel.setPreferredSize(new Dimension((int) (width * 0.82), 0));
         contentPanel.add(new RightPanel(null), "main");
         contentPanel.add(cashierView.getPanel(), "cashiers");
         contentPanel.add(scheduleView.getPanel(), "schedules");
+        contentPanel.add(new RightPanel(null), "genSchedule");
 
         // Default
         cardLayout.show(contentPanel, "main");
 
-        mainPanel.add(sideBarPanel, BorderLayout.WEST);
+        mainPanel.add(topPanel, BorderLayout.NORTH);
         mainPanel.add(contentPanel, BorderLayout.CENTER);
 
         this.add(mainPanel, BorderLayout.CENTER);

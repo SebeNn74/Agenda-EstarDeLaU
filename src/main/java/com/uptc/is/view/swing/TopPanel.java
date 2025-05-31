@@ -46,14 +46,14 @@ public class TopPanel extends JPanel {
         this.add(muBtn, gbc);
 
         //Boton: Salir
-        ModernButton exitBtn = new ModernButton("SALIR [Esc]");
+        ModernButton exitBtn = new ModernButton("SALIR");
         exitBtn.setNormalBackgroundColor(new Color(220, 53, 69));
         exitBtn.setHoverBackgroundColor(new Color(227, 78, 91));
         exitBtn.setPressedBackgroundColor(new Color(194, 47, 60));
         exitBtn.setBorderColor(new Color(220, 53, 69));
         exitBtn.setNormalForegroundColor(Color.WHITE);
         exitBtn.setHoverForegroundColor(Color.WHITE);
-        exitBtn.setButtonSize( 125, 30);
+        exitBtn.setButtonSize( 100, 30);
         exitBtn.setClickAction(e -> mainView.closeView());
         gbc.gridx = 5; gbc.gridy = 0;
         this.add(exitBtn, gbc);
