@@ -18,12 +18,14 @@ public class MainApp extends JFrame {
         PanelCajeros panelCajeros = new PanelCajeros();
         PanelHorariosClase panelHorarios = new PanelHorariosClase();
         PanelTurnosCafeteria panelTurnos = new PanelTurnosCafeteria();
+        PanelCalendario panelCalendario = new PanelCalendario();
 
         // Nombres clave
         panelCentral.add(panelInicio, "Inicio");
         panelCentral.add(panelCajeros, "Cajeros");
         panelCentral.add(panelHorarios, "Clases");
         panelCentral.add(panelTurnos, "Turnos");
+        panelCentral.add(panelCalendario, "Calendario");
 
         // Acciones desde el panel lateral
         panelLateral.setAction(command -> {

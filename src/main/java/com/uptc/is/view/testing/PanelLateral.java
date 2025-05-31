@@ -21,8 +21,7 @@ public class PanelLateral extends JPanel {
             {"👤 Cajeros", "Cajeros"},
             {"📚 Clases", "Clases"},
             {"🕒 Turnos", "Turnos"},
-            {"📅 Calendario", "Calendario"},
-            {"⚙️ Configuración", "Configuración"}
+            {"📅 Calendario", "Calendario"}
         };
 
         for (String[] opcion : opciones) {
