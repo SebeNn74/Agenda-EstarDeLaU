@@ -1,6 +1,6 @@
 package com.uptc.is.view.swing;
 
-import com.uptc.is.view.custom_components.CustomButton;
+import com.uptc.is.view.custom_components.ModernButton;
 import com.uptc.is.view.custom_components.NumericTextField;
 
 import javax.swing.*;
@@ -13,7 +13,7 @@ public class LeftPanel extends JPanel {
     private JTextField processNameTF;
     private NumericTextField processSizeTF;
     private NumericTextField processTimeTF;
-    private CustomButton addProcess;
+    private ModernButton addProcess;
 
     public LeftPanel(ActionListener listener) {
         this.setLayout(new BorderLayout());
@@ -103,10 +103,8 @@ public class LeftPanel extends JPanel {
 
         gbc.fill = GridBagConstraints.NONE;
 
-        addProcess = new CustomButton("CREAR PROCESO");
+        addProcess = new ModernButton("CREAR PROCESO");
         addProcess.setPreferredSize(new Dimension(200, 30));
-        addProcess.setColors(new Color(46, 149, 191 ), new Color(57, 178, 227 ));
-        addProcess.setTextColor(Color.WHITE);
         addProcess.addActionListener(listener);
         addProcess.setActionCommand("addProcess");
         addProcess.addActionListener(e -> processNameTF.requestFocusInWindow());
@@ -126,10 +124,8 @@ public class LeftPanel extends JPanel {
         gbc.insets = new Insets(5, 15, 20, 10);
         ProcessPanel.add(line, gbc);
 
-        CustomButton execute = new CustomButton("EJECUTAR");
+        ModernButton execute = new ModernButton("EJECUTAR");
         execute.setPreferredSize(new Dimension(200, 30));
-        execute.setColors(new Color(92, 205, 87  ), new Color(124, 231, 119  ));
-        execute.setTextColor(Color.WHITE);
         execute.addActionListener(listener);
         execute.setActionCommand("execute");
 
@@ -138,12 +134,6 @@ public class LeftPanel extends JPanel {
         ProcessPanel.add(execute, gbc);
 
         this.add(ProcessPanel, BorderLayout.CENTER);
-    }
-
-    //GETTERS Y SETTERS DE ENTRADAS
-
-    public void cleanInput(){
-        //LIMPIAR CAMPOS DE ENTRADAS
     }
 
 }

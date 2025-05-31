@@ -12,8 +12,8 @@ import java.util.Optional;
 
 public class SchedulePresenter {
 
-    private ScheduleRepository scheduleRepo;
-    private IScheduleView view;
+    private final ScheduleRepository scheduleRepo;
+    private final IScheduleView view;
     private Cashier currentCashier;
     private Schedule currentSchedule;
     private TimeSlot currentTimeSlot;

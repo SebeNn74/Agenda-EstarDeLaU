@@ -1,6 +1,7 @@
 package com.uptc.is.view.swing;
 
 import com.uptc.is.view.custom_components.ModernButton;
+import net.bytebuddy.matcher.StringMatcher;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -8,6 +9,8 @@ import java.awt.*;
 import java.util.Objects;
 
 public class SideBarPanel extends JPanel {
+
+    private ModernButton lastPressedBtn;
 
     public SideBarPanel(MainView mainView){
         this.setLayout(new BorderLayout());
@@ -41,11 +44,15 @@ public class SideBarPanel extends JPanel {
         ModernButton btnUserManual = new ModernButton("MANUAL DE USUARIO");
         btnUserManual.setButtonSize( 180, 40);
 
-        btnMain.addActionListener(e -> mainView.showPanelView("main"));
-        btnCashiers.addActionListener(e -> mainView.showPanelView("cashiers"));
-        btnSchedules.addActionListener(e -> mainView.showPanelView("schedules"));
-        btnGenSchedule.addActionListener(e -> mainView.showPanelView("genSchedule"));
-        btnUserManual.addActionListener(e -> mainView.openUserManual());
+        btnMain.addClickAction(e -> mainView.showPanelView("main"));
+        btnMain.addClickAction(e -> setPressedButton(btnMain));
+        btnCashiers.addClickAction(e -> mainView.showPanelView("cashiers"));
+        btnCashiers.addClickAction(e -> setPressedButton(btnCashiers));
+        btnSchedules.addClickAction(e -> mainView.showPanelView("schedules"));
+        btnSchedules.addClickAction(e -> setPressedButton(btnSchedules));
+        btnGenSchedule.addClickAction(e -> mainView.showPanelView("genSchedule"));
+        btnGenSchedule.addClickAction(e -> setPressedButton(btnGenSchedule));
+        btnUserManual.addClickAction(e -> mainView.openUserManual());
 
         gbc.gridy = 0;
         assert icon != null;
@@ -70,6 +77,9 @@ public class SideBarPanel extends JPanel {
         menuPanel.add(btnUserManual, gbc);
 
         this.add(menuPanel);
+
+        lastPressedBtn = btnMain;
+        lastPressedBtn.setPressed(true);
     }
 
     private JLabel getLogo(){
@@ -81,6 +91,12 @@ public class SideBarPanel extends JPanel {
             System.err.println("No se pudo encontrar el ícono en: " + "/icons/logo_estardelau.png");
         }
         return null;
+    }
+
+    private void setPressedButton(ModernButton button){
+        lastPressedBtn.setPressed(false);
+        button.setPressed(true);
+        lastPressedBtn = button;
     }
 
 }

@@ -38,7 +38,7 @@ public class TopPanel extends JPanel {
         exitBtn.setForegroundColors(Color.WHITE, Color.WHITE);
         exitBtn.setFontSize(15f);
         exitBtn.setButtonSize( 100, 32);
-        exitBtn.setClickAction(e -> mainView.closeView());
+        exitBtn.addClickAction(e -> mainView.closeView());
 
         gbc.anchor = GridBagConstraints.WEST;
         gbc.gridx = 0; gbc.gridy = 0;

@@ -9,8 +9,8 @@ import java.util.function.Consumer;
 
 public class CashierPresenter {
 
-    private CashierRepository cashierRepo;
-    private ICashierView view;
+    private final CashierRepository cashierRepo;
+    private final ICashierView view;
     private Consumer<Cashier> onCashierSelected; // Listener
 
     public CashierPresenter(CashierRepository cashierRepository, ICashierView cashierView){

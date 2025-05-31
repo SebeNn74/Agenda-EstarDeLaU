@@ -22,6 +22,7 @@ public class ModernButton extends JButton {
     // Propiedades de Apariencia
     private int cornerRadius = 20;
     private boolean isHovering = false;
+    private boolean wasPressed = false;
 
     public ModernButton(String text) {
         super(text);
@@ -62,7 +63,7 @@ public class ModernButton extends JButton {
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         // Fondo
-        if (getModel().isPressed()) {
+        if (getModel().isPressed() || wasPressed) {
             g2.setColor(pressedBackgroundColor);
         } else if (isHovering) {
             g2.setColor(hoverBackgroundColor);
@@ -79,8 +80,8 @@ public class ModernButton extends JButton {
         super.paintComponent(g);
     }
 
-    public void setClickAction(ActionListener action) {
-        addActionListener(action);
+    public void addClickAction(ActionListener action) {
+        this.addActionListener(action);
     }
 
     // SETTERS de Personalización
@@ -109,6 +110,11 @@ public class ModernButton extends JButton {
 
     public void setFontSize(float size){
         this.fontSize = size;
+        repaint();
+    }
+
+    public void setPressed(boolean isPressed){
+        this.wasPressed = isPressed;
         repaint();
     }
 

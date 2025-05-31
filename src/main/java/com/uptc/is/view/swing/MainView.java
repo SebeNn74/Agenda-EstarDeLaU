@@ -16,12 +16,10 @@ public class MainView extends JFrame implements IMainView {
     public static int width = 1200;
     public static int height = 730;
 
-    private TopPanel topPanel;
-    private SideBarPanel sideBarPanel;
     private CardLayout cardLayout;
     private JPanel contentPanel;
-    private ICashierView cashierView;
-    private IScheduleView scheduleView;
+    private final ICashierView cashierView;
+    private final IScheduleView scheduleView;
 
     public MainView(ICashierView cashierView, IScheduleView scheduleView){
         this.cashierView = cashierView;
@@ -50,20 +48,20 @@ public class MainView extends JFrame implements IMainView {
     }
 
     private void configPanel(){
-        sideBarPanel = new SideBarPanel(this);
+        SideBarPanel sideBarPanel = new SideBarPanel(this);
         sideBarPanel.setLayout(new BoxLayout(sideBarPanel, BoxLayout.Y_AXIS));
 
         JPanel mainPanel = new JPanel(new BorderLayout());
 
-        topPanel = new TopPanel(this);
+        TopPanel topPanel = new TopPanel(this);
         topPanel.setPreferredSize(new Dimension(0,60));
 
         cardLayout = new CardLayout();
         contentPanel = new JPanel(cardLayout);
-        contentPanel.add(new RightPanel(null), "main");
+        contentPanel.add(new HomePanel(), "main");
         contentPanel.add(cashierView.getPanel(), "cashiers");
         contentPanel.add(scheduleView.getPanel(), "schedules");
-        contentPanel.add(new RightPanel(null), "genSchedule");
+        contentPanel.add(new HomePanel(), "genSchedule");
 
         mainPanel.add(topPanel, BorderLayout.NORTH);
         mainPanel.add(contentPanel, BorderLayout.CENTER);
