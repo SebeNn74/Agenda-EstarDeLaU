@@ -6,9 +6,9 @@ import com.uptc.is.view.contracts.IMainView;
 
 public class MainPresenter {
 
-    private IMainView mainView;
-    private CashierPresenter cashierPresenter;
-    private SchedulePresenter schedulePresenter;
+    private final IMainView mainView;
+    private final CashierPresenter cashierPresenter;
+    private final SchedulePresenter schedulePresenter;
 
     private Cashier currentCashier;
 

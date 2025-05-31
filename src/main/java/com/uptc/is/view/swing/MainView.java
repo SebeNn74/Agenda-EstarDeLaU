@@ -16,19 +16,16 @@ public class MainView extends JFrame implements IMainView {
     public static int width = 1200;
     public static int height = 730;
 
-    private TopPanel topPanel;
-    private SideBarPanel sideBarPanel;
     private CardLayout cardLayout;
     private JPanel contentPanel;
-    private ICashierView cashierView;
-    private IScheduleView scheduleView;
+    private final ICashierView cashierView;
+    private final IScheduleView scheduleView;
 
     public MainView(ICashierView cashierView, IScheduleView scheduleView){
         this.cashierView = cashierView;
         this.scheduleView = scheduleView;
         frameConfig();
-        configTopPanel();
-        configMainPanel();
+        configPanel();
     }
 
     public void frameConfig(){
@@ -50,35 +47,31 @@ public class MainView extends JFrame implements IMainView {
          */
     }
 
-    private void configTopPanel(){
-        topPanel = new TopPanel(this);
-        topPanel.setPreferredSize(new Dimension(width, 60));
+    private void configPanel(){
+        SideBarPanel sideBarPanel = new SideBarPanel(this);
+        sideBarPanel.setLayout(new BoxLayout(sideBarPanel, BoxLayout.Y_AXIS));
 
-        this.add(topPanel, BorderLayout.NORTH);
-    }
+        JPanel mainPanel = new JPanel(new BorderLayout());
 
-    private void configMainPanel(){
-        JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
-
-        sideBarPanel = new SideBarPanel(this);
-        sideBarPanel.setPreferredSize(new Dimension((int) (width * 0.23), 0));
-
-        LeftPanel leftPanel = new LeftPanel(null);
-        leftPanel.setPreferredSize(new Dimension((int) (width * 0.23), 0));
+        TopPanel topPanel = new TopPanel(this);
+        topPanel.setPreferredSize(new Dimension(0,60));
 
         cardLayout = new CardLayout();
         contentPanel = new JPanel(cardLayout);
-        contentPanel.add(new RightPanel(null), "main");
+        contentPanel.add(new HomePanel(), "main");
         contentPanel.add(cashierView.getPanel(), "cashiers");
         contentPanel.add(scheduleView.getPanel(), "schedules");
+        contentPanel.add(new HomePanel(), "genSchedule");
 
-        // Default
-        cardLayout.show(contentPanel, "main");
-
-        mainPanel.add(sideBarPanel, BorderLayout.WEST);
+        mainPanel.add(topPanel, BorderLayout.NORTH);
         mainPanel.add(contentPanel, BorderLayout.CENTER);
 
-        this.add(mainPanel, BorderLayout.CENTER);
+        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, sideBarPanel, mainPanel);
+        splitPane.setResizeWeight(0.08);
+        splitPane.setDividerSize(0);
+        splitPane.setContinuousLayout(true);
+
+        this.add(splitPane, BorderLayout.CENTER);
     }
 
     @Override
@@ -92,6 +85,7 @@ public class MainView extends JFrame implements IMainView {
 
     @Override
     public void showView() {
+        cardLayout.show(contentPanel, "main");
         this.setVisible(true);
     }
 

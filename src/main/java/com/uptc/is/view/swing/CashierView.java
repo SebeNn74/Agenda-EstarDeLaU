@@ -7,12 +7,17 @@ import com.uptc.is.view.contracts.ICashierView;
 import com.uptc.is.view.custom_components.MessageDialog;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.List;
 
 public class CashierView extends JPanel implements ICashierView {
 
     private CashierPresenter presenter;
     private JFrame frame;
+
+    public CashierView(){
+        this.setBackground(new Color(250, 215, 160));
+    }
 
     @Override
     public void displayCashierList(List<Cashier> cashiers) {

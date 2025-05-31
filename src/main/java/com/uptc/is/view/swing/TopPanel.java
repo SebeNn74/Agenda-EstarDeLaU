@@ -13,49 +13,41 @@ public class TopPanel extends JPanel {
     public TopPanel(MainView mainView){
         this.setLayout(new GridBagLayout());
         this.configPanel(mainView);
-        this.setBackground(Color.BLACK);
+        this.setBackground(Color.darkGray);
     }
 
     private void configPanel(MainView mainView){
+        this.setBorder(BorderFactory.createEmptyBorder(5, 25, 5, 25));
+
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(5, 5, 5, 5);
-        gbc.fill = GridBagConstraints.NONE;
+        gbc.insets = new Insets(0, 5, 0, 5);
+        gbc.fill = GridBagConstraints.VERTICAL;
         gbc.weightx = 1;
 
         //Label : Titulo
         JLabel title = new JLabel("AGENDAMIENTO LABORAL : ESTAR DE LA U");
         title.setFont(FontLoader.loadFont("/fonts/Roboto-SemiBold.ttf", 21f));
         title.setForeground(Color.WHITE);
+
+        //Boton: Salir
+        ModernButton exitBtn = new ModernButton("SALIR");
+        exitBtn.setBackgroundColors(new Color(220, 53, 69),
+                                    new Color(227, 78, 91),
+                                    new Color(194, 47, 60));
+        exitBtn.setBorderColor(new Color(220, 53, 69));
+        exitBtn.setForegroundColors(Color.WHITE, Color.WHITE);
+        exitBtn.setFontSize(15f);
+        exitBtn.setButtonSize( 100, 32);
+        exitBtn.addClickAction(e -> mainView.closeView());
+
+        gbc.anchor = GridBagConstraints.WEST;
         gbc.gridx = 0; gbc.gridy = 0;
         this.add(title, gbc);
 
-        //Espacio
-        gbc.gridx = 1; gbc.gridy = 0;
-        this.add(new JLabel(), gbc);
-        gbc.gridx = 2; gbc.gridy = 0;
-        this.add(new JLabel(), gbc);
-        gbc.gridx = 3; gbc.gridy = 0;
-        this.add(new JLabel(), gbc);
+        this.add(Box.createVerticalGlue(), gbc);
 
-        //Boton: Manual de usuario
-        ModernButton muBtn = new ModernButton("MANUAL DE USUARIO");
-
-        muBtn.setButtonSize( 200, 30);
-        muBtn.setClickAction(e -> mainView.openUserManual());
-        gbc.gridx = 4; gbc.gridy = 0;
-        this.add(muBtn, gbc);
-
-        //Boton: Salir
-        ModernButton exitBtn = new ModernButton("SALIR [Esc]");
-        exitBtn.setNormalBackgroundColor(new Color(220, 53, 69));
-        exitBtn.setHoverBackgroundColor(new Color(227, 78, 91));
-        exitBtn.setPressedBackgroundColor(new Color(194, 47, 60));
-        exitBtn.setBorderColor(new Color(220, 53, 69));
-        exitBtn.setNormalForegroundColor(Color.WHITE);
-        exitBtn.setHoverForegroundColor(Color.WHITE);
-        exitBtn.setButtonSize( 125, 30);
-        exitBtn.setClickAction(e -> mainView.closeView());
-        gbc.gridx = 5; gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.EAST;
+        gbc.gridx = 2;
         this.add(exitBtn, gbc);
 
         getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)

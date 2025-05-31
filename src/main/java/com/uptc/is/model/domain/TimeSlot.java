@@ -2,7 +2,6 @@ package com.uptc.is.model.domain;
 
 import com.uptc.is.util.IdGenerator;
 
-import java.sql.Time;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 
