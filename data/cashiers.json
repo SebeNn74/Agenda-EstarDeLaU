@@ -5,7 +5,7 @@
   "studentCode" : "202211892",
   "telNumber" : "3124033131",
   "email" : "sebastian.nino06@uptc.edu.co",
-  "workingSchedule" : [ ]
+  "workingSchedule" : [ "H2" ]
 }, {
   "nuip" : "123",
   "names" : "Jose Maria",
@@ -13,7 +13,7 @@
   "studentCode" : "2222334",
   "telNumber" : "310555533",
   "email" : "jose.rojas@siu.co",
-  "workingSchedule" : [ ]
+  "workingSchedule" : [ "H1" ]
 }, {
   "nuip" : "1002331313",
   "names" : "Laura Daniela",

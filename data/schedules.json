@@ -1,19 +1,19 @@
 [ {
-  "id" : "H2",
-  "cashier" : "1",
-  "date" : "2025-06-28",
+  "id" : "H1",
+  "cashier" : "123",
+  "date" : "2025-06-03",
   "timeSlot" : {
-    "day" : "SATURDAY",
-    "startTime" : "09:00:00",
-    "endTime" : "11:00:00"
+    "day" : "TUESDAY",
+    "startTime" : "10:00:00",
+    "endTime" : "13:00:00"
   }
 }, {
-  "id" : "H3",
-  "cashier" : "1",
-  "date" : "2025-07-17",
+  "id" : "H2",
+  "cashier" : "1056798612",
+  "date" : "2025-06-23",
   "timeSlot" : {
-    "day" : "THURSDAY",
-    "startTime" : "09:00:00",
-    "endTime" : "16:00:00"
+    "day" : "MONDAY",
+    "startTime" : "08:00:00",
+    "endTime" : "12:00:00"
   }
 } ]
