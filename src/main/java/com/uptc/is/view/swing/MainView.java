@@ -13,9 +13,10 @@ public class MainView extends JFrame implements IMainView {
 
     private MainPresenter presenter;
 
-    public static int width = 1200;
-    public static int height = 730;
+    public static int width = 1230;
+    public static int height = 740;
 
+    private TopPanel topPanel;
     private CardLayout cardLayout;
     private JPanel contentPanel;
     private final ICashierView cashierView;
@@ -53,30 +54,53 @@ public class MainView extends JFrame implements IMainView {
 
         JPanel mainPanel = new JPanel(new BorderLayout());
 
-        TopPanel topPanel = new TopPanel(this);
+        topPanel = new TopPanel(this);
         topPanel.setPreferredSize(new Dimension(0,60));
 
         cardLayout = new CardLayout();
         contentPanel = new JPanel(cardLayout);
-        contentPanel.add(new HomePanel(), "main");
+        contentPanel.add(new HomePanel(), "home");
         contentPanel.add(cashierView.getPanel(), "cashiers");
         contentPanel.add(scheduleView.getPanel(), "schedules");
-        contentPanel.add(new HomePanel(), "genSchedule");
 
         mainPanel.add(topPanel, BorderLayout.NORTH);
         mainPanel.add(contentPanel, BorderLayout.CENTER);
 
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, sideBarPanel, mainPanel);
-        splitPane.setResizeWeight(0.08);
+        splitPane.setResizeWeight(0.18);
         splitPane.setDividerSize(0);
         splitPane.setContinuousLayout(true);
 
         this.add(splitPane, BorderLayout.CENTER);
     }
 
-    @Override
-    public void showPanelView(String key) {
-        cardLayout.show(contentPanel, key);
+    public void showCashierForm() {
+        cardLayout.show(contentPanel, "cashiers");
+        cashierView.showCashierFormPanel();
+        topPanel.setTitle("INGRESO DE CAJEROS");
+    }
+
+    public void showCashierList() {
+        cardLayout.show(contentPanel, "cashiers");
+        cashierView.showCashierListPanel();
+        topPanel.setTitle("REGISTRO DE CAJEROS");
+    }
+
+    public void showScheduleForm() {
+        cardLayout.show(contentPanel, "schedules");
+        scheduleView.showScheduleFormPanel();
+        topPanel.setTitle("INGRESO DE HORARIOS");
+    }
+
+    public void showGeneralSchedule() {
+        cardLayout.show(contentPanel, "schedules");
+        scheduleView.showScheduleListPanel();
+        topPanel.setTitle("CALENDARIO GENERAL");
+    }
+
+    public void showHome(){
+        cardLayout.show(contentPanel, "home");
+        topPanel.setTitle("");
     }
 
     public void openUserManual(){
@@ -85,7 +109,7 @@ public class MainView extends JFrame implements IMainView {
 
     @Override
     public void showView() {
-        cardLayout.show(contentPanel, "main");
+        cardLayout.show(contentPanel, "home");
         this.setVisible(true);
     }
 

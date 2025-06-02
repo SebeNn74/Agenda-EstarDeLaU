@@ -17,6 +17,7 @@ public class CashierPresenter {
         this.cashierRepo = cashierRepository;
         this.view = cashierView;
         this.view.setPresenter(this);
+        this.view.displayCashierList(cashierRepo.getAll());
     }
 
     public void test() {
@@ -42,10 +43,6 @@ public class CashierPresenter {
         }
     }
 
-    public void showCashiers(){
-        view.displayCashierList(cashierRepo.getAll());
-    }
-
     public void createCashier(){
         if(validCashier()){
             if(cashierRepo.searchById(view.getNuipInput()).isEmpty()){
@@ -55,7 +52,7 @@ public class CashierPresenter {
                 System.out.println("Cajero "+view.getNuipInput()+" creado");
             }else{
                 String message = "Ya existe un empleado con el mismo número de identificación";
-                view.displayError("Cajero (Humano) Existente",message);
+                view.displayError(message);
             }
         }
     }
@@ -64,25 +61,26 @@ public class CashierPresenter {
         Cashier cashier = new Cashier(view.getNuipInput(),view.getStudentCodeInput());
         cashier.setNames(view.getNamesInput());
         cashier.setSurnames(view.getSurnamesInput());
+        cashier.setStudentCode(view.getStudentCodeInput());
         cashier.setTelNumber(view.getTelNumberInput());
-        cashier.setEmail(view.getTelNumberInput());
+        cashier.setEmail(view.getEmailInput());
         return cashier;
     }
 
-    public void selectCashier(){
+    public void selectCashier(String nuip){
         String message;
-        if(view.getNuipInput().isEmpty()){
-            Optional<Cashier> cashier = cashierRepo.searchById(view.getNuipInput());
+        if(!nuip.isEmpty()){
+            Optional<Cashier> cashier = cashierRepo.searchById(nuip);
             if(cashier.isPresent()){
                 view.showCashierDetails(cashier.get());
-                System.out.println("Cajero "+view.getNuipInput()+" encontrado");
+                view.clearSearchField();
             }else{
                 message = "No se ha registrado ningun cajero (humano) con ese número de identidad";
-                view.displayError("Titulo",message);
+                view.displayError(message);
             }
         }else{
             message = "Ingrese el número de identidad del cajero (humano)";
-            view.displayError("Titulo",message);
+            view.displayError(message);
         }
     }
 
@@ -90,40 +88,40 @@ public class CashierPresenter {
         String message;
         if(validCashier()){
             cashierRepo.update(madeCashier());
-            System.out.println("Cajero "+view.getNuipInput()+" actualizado");
             message = "Los cambios en el cajero (humano) se guardaron con exito";
-            view.displayMessage("Titulo",message);
+            view.displayMessage(message);
+            view.displayCashierList(cashierRepo.getAll());
         }
     }
 
     public void removeCashier(){
-        String message;
+        String message = "El registro del cajero (humano) se eliminó con exito";
         cashierRepo.remove(view.getNuipInput());
-        System.out.println("Cajero "+view.getNuipInput()+" eliminado");
-        message = "El registro del cajero (humano) se eliminó con exito";
-        view.displayMessage("Titulo",message);
+        view.displayMessage(message);
+        view.clearForm();
+        view.displayCashierList(cashierRepo.getAll());
     }
 
     private boolean validCashier(){
         String field;
         if(view.getNuipInput().isEmpty()){
-            field = "Número de identidad";
+            field = "El Número de identidad";
         } else if (view.getStudentCodeInput().isEmpty()) {
-            field = "Código estudiantil";
+            field = "El Código estudiantil";
         } else if (view.getNamesInput().isEmpty()) {
-            field = "Nombres";
+            field = "Los Nombres";
         } else if (view.getSurnamesInput().isEmpty()) {
-            field = "Apellidos";
+            field = "Los Apellidos";
         } else if (view.getTelNumberInput().isEmpty()) {
-            field = "Número de teléfono";
+            field = "El Número de teléfono";
         } else if (view.getEmailInput().isEmpty()) {
-            field = "Correo electrónico";
+            field = "El Correo electrónico";
         }else{
             return true;
         }
         //Si algun campo de las entradas esta vacio
-        String message = "El "+field+" del cajero (humano) no puede estar vacío";
-        view.displayError("Titulo", message);
+        String message = field+" del cajero (humano) no puede estar vacío";
+        view.displayError(message);
         return false;
     }
 

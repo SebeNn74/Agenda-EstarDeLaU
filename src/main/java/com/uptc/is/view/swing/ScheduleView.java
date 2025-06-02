@@ -17,9 +17,23 @@ public class ScheduleView  extends JPanel implements IScheduleView {
 
     private SchedulePresenter presenter;
     private JFrame frame;
+    private CardLayout cardLayout;
 
     public ScheduleView(){
-        this.setBackground(new Color(133, 193, 233));
+        configPanel();
+    }
+
+    private void configPanel(){
+        cardLayout = new CardLayout();
+        this.setLayout(cardLayout);
+
+        JPanel formPanel = new JPanel();
+        formPanel.setBackground(Color.darkGray);
+        JPanel listPanel = new JPanel();
+        listPanel.setBackground(Color.green);
+
+        this.add(formPanel, "form");
+        this.add(listPanel, "list");
     }
 
     @Override
@@ -88,17 +102,27 @@ public class ScheduleView  extends JPanel implements IScheduleView {
     }
 
     @Override
+    public void showScheduleFormPanel() {
+        cardLayout.show(this, "form");
+    }
+
+    @Override
+    public void showScheduleListPanel() {
+        cardLayout.show(this, "list");
+    }
+
+    @Override
     public void showScheduleDetails(Schedule schedule) {
 
     }
 
     @Override
-    public void displayError(String title, String message) {
+    public void displayError(String message) {
         new MessageDialog(this.frame, message, MessageDialog.MessageType.ERROR);
     }
 
     @Override
-    public void displayMessage(String title, String message) {
+    public void displayMessage(String message) {
         new MessageDialog(this.frame, message, MessageDialog.MessageType.SUCCESS);
     }
 

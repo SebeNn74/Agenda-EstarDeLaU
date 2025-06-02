@@ -89,6 +89,16 @@ public interface IScheduleView {
     String getSelectedTimeSlotId();
 
     /**
+     * Muestra el panel de formulario de cajeros.
+     */
+    void showScheduleFormPanel();
+
+    /**
+     * Muestra el panel de listado de cajeros.
+     */
+    void showScheduleListPanel();
+
+    /**
      * Rellena los campos del input con los datos de un horario específico (para edición).
      * @param schedule El objeto Schedule cuyos datos se mostrarán.
      */
@@ -98,13 +108,13 @@ public interface IScheduleView {
      * Muestra un mensaje de error específico de la gestión de horarios.
      * @param message El mensaje de error a mostrar.
      */
-    void displayError(String title, String message);
+    void displayError(String message);
 
     /**
      * Muestra un mensaje de éxito específico de la gestión de horarios.
      * @param message El mensaje de éxito a mostrar.
      */
-    void displayMessage(String title, String message);
+    void displayMessage(String message);
 
     /**
      * Establece el presentador para esta vista.

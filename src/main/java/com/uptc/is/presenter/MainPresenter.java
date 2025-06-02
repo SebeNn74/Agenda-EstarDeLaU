@@ -26,7 +26,6 @@ public class MainPresenter {
         cashierPresenter.setOnCashierSelected(cashier -> {
             currentCashier = cashier;                     // Guarda el cajero actual
             schedulePresenter.setCashier(cashier);        // Pasa el cajero al presenter de horarios
-            mainView.showPanelView("schedules");                   // Cambia la vista para mostrar horarios
         });
     }
 
@@ -35,7 +34,7 @@ public class MainPresenter {
     }
 
     public void openUserManual(){
-        new FileOpener("M.U. PS9.pdf");
+        new FileOpener("M.U: Sistema de Agendamiento Estar de la U.pdf");
     }
 
 }

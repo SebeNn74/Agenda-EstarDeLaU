@@ -14,19 +14,38 @@ public class CashierView extends JPanel implements ICashierView {
 
     private CashierPresenter presenter;
     private JFrame frame;
+    private CardLayout cardLayout;
+    CashierFormPanel formPanel;
+    CashierListPanel listPanel;
 
     public CashierView(){
-        this.setBackground(new Color(250, 215, 160));
+        cardLayout = new CardLayout();
+        this.setLayout(cardLayout);
+        configPanel();
+    }
+
+    private void configPanel(){
+        formPanel = new CashierFormPanel(this);
+        listPanel = new CashierListPanel(this);
+
+        this.add(formPanel, "form");
+        this.add(listPanel, "list");
     }
 
     @Override
     public void displayCashierList(List<Cashier> cashiers) {
-
+        listPanel.updateCashiers(cashiers);
+        formPanel.updateCashiers(cashiers);
     }
 
     @Override
     public void clearForm() {
+        formPanel.clearForm();
+    }
 
+    @Override
+    public void clearSearchField() {
+        formPanel.clearSearchField();
     }
 
     @Override
@@ -46,32 +65,37 @@ public class CashierView extends JPanel implements ICashierView {
 
     @Override
     public String getNuipInput() {
-        return "";
+        return formPanel.getNuip();
     }
 
     @Override
     public String getNamesInput() {
-        return "";
+        return formPanel.getNames();
     }
 
     @Override
     public String getSurnamesInput() {
-        return "";
+        return formPanel.getSurmanes();
     }
 
     @Override
     public String getStudentCodeInput() {
-        return "";
+        return formPanel.getStudentCode();
     }
 
     @Override
     public String getTelNumberInput() {
-        return "";
+        return formPanel.getTelNumber();
     }
 
     @Override
     public String getEmailInput() {
-        return "";
+        return formPanel.getEmail();
+    }
+
+    @Override
+    public void searchCashier(String nuip) {
+        presenter.selectCashier(nuip);
     }
 
     @Override
@@ -80,17 +104,27 @@ public class CashierView extends JPanel implements ICashierView {
     }
 
     @Override
-    public void showCashierDetails(Cashier cashier) {
-
+    public void showCashierFormPanel() {
+        cardLayout.show(this, "form");
     }
 
     @Override
-    public void displayError(String title, String message) {
+    public void showCashierListPanel() {
+        cardLayout.show(this, "list");
+    }
+
+    @Override
+    public void showCashierDetails(Cashier cashier) {
+        formPanel.setCashier(cashier);
+    }
+
+    @Override
+    public void displayError(String message) {
         new MessageDialog(this.frame, message, MessageDialog.MessageType.ERROR);
     }
 
     @Override
-    public void displayMessage(String title, String message) {
+    public void displayMessage(String message) {
         new MessageDialog(frame, message, MessageDialog.MessageType.SUCCESS);
     }
 

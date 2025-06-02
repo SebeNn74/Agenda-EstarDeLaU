@@ -88,11 +88,11 @@ public class SchedulePresenter {
                 System.out.println("Horario "+currentSchedule.getID()+" encontrado");
             }else{
                 message = "No se ha registrado ningun horario con ese id";
-                view.displayError("Titulo",message);
+                view.displayError(message);
             }
         }else{
             message = "Ingrese el id del horario";
-            view.displayError("Titulo",message);
+            view.displayError(message);
         }
     }
 
@@ -100,7 +100,7 @@ public class SchedulePresenter {
         String message;
         scheduleRepo.remove(currentSchedule.getID());
         message = "El registro del horario se eliminó con exito";
-        view.displayMessage("Titulo",message);
+        view.displayMessage(message);
         System.out.println("Horario "+currentSchedule.getID()+" eliminado");
     }
 
@@ -115,7 +115,7 @@ public class SchedulePresenter {
         }
         //Si algun campo de las entradas esta vacio
         String message = field+" no puede estar vacío";
-        view.displayError("Titulo", message);
+        view.displayError(message);
         return false;
     }
 
@@ -144,7 +144,7 @@ public class SchedulePresenter {
         if(currentSchedule.removeTimeSlot(view.getSelectedTimeSlotId())){
             scheduleRepo.update(currentSchedule);
             message = "La franja horaria se eliminó con exito";
-            view.displayMessage("Titulo",message);
+            view.displayMessage(message);
             System.out.println("Franja "+currentSchedule.getID()+" eliminada");
         }
     }
@@ -162,10 +162,10 @@ public class SchedulePresenter {
                 return true;
             }
             String message = field+"  no puede estar vacío";
-            view.displayError("Titulo", message);
+            view.displayError(message);
             return false;
         }
-        view.displayError("Titulo", "Franja horaria invalida");
+        view.displayError("Franja horaria invalida");
         return false;
     }
 

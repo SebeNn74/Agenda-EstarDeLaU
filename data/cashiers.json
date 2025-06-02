@@ -1,0 +1,28 @@
+[ {
+  "nuip" : "1056798612",
+  "names" : "Sebastian",
+  "surnames" : "Niño Niño",
+  "studentCode" : "202211892",
+  "telNumber" : "3124033131",
+  "email" : "sebastian.nino06@uptc.edu.co",
+  "workingSchedule" : [ ],
+  "classSchedule" : [ ]
+}, {
+  "nuip" : "123",
+  "names" : "Jose Maria",
+  "surnames" : "Rojas",
+  "studentCode" : "2222334",
+  "telNumber" : "310555533",
+  "email" : "jose.rojas@siu.co",
+  "workingSchedule" : [ ],
+  "classSchedule" : [ ]
+}, {
+  "nuip" : "12",
+  "names" : "12345",
+  "surnames" : "6789",
+  "studentCode" : "010203",
+  "telNumber" : "123",
+  "email" : "123",
+  "workingSchedule" : [ ],
+  "classSchedule" : [ ]
+} ]

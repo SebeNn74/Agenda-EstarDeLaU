@@ -11,13 +11,13 @@ import java.awt.event.MouseEvent;
 public class ModernButton extends JButton {
 
     // Colores
-    private Color normalBackgroundColor = new Color(59, 89, 152);
-    private Color hoverBackgroundColor = new Color(88, 115, 175);
-    private Color pressedBackgroundColor = new Color(40, 60, 110);
+    private Color normalBackgroundColor = new Color(14, 121, 182);
+    private Color hoverBackgroundColor = new Color(64, 161, 212);
+    private Color pressedBackgroundColor = new Color(10, 55, 95);
     private Color normalForegroundColor = Color.WHITE;
     private Color hoverForegroundColor = Color.WHITE;
-    private Color borderColor = new Color(59, 89, 152);
-    private float fontSize = 14f;
+    private Color borderColor = new Color(14, 121, 182);
+    private float fontSize = 12.5f;
 
     // Propiedades de Apariencia
     private int cornerRadius = 20;
@@ -33,6 +33,7 @@ public class ModernButton extends JButton {
         setContentAreaFilled(false);
         setFocusPainted(false);
         setBorderPainted(false);
+        setCursor(new Cursor(Cursor.HAND_CURSOR));
 
         setForeground(normalForegroundColor);
 
@@ -56,8 +57,7 @@ public class ModernButton extends JButton {
 
     @Override
     protected void paintComponent(Graphics g) {
-        Font robotoFont = FontLoader.loadFont("/fonts/Roboto-Bold.ttf", fontSize);
-        this.setFont(robotoFont);
+        this.setFont(FontLoader.loadFont("/fonts/Montserrat-Bold.ttf", fontSize));
 
         Graphics2D g2 = (Graphics2D) g.create();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);

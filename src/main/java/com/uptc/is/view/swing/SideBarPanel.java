@@ -1,7 +1,6 @@
 package com.uptc.is.view.swing;
 
 import com.uptc.is.view.custom_components.ModernButton;
-import net.bytebuddy.matcher.StringMatcher;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -15,14 +14,14 @@ public class SideBarPanel extends JPanel {
     public SideBarPanel(MainView mainView){
         this.setLayout(new BorderLayout());
         this.setBorder(new EmptyBorder(10, 10, 10, 10));
-        this.setBackground(Color.BLACK);
+        this.setBackground(new Color(15, 14, 29));
         this.configPanel(mainView);
     }
 
     private void configPanel(MainView mainView){
         JPanel menuPanel = new JPanel(new GridBagLayout());
         menuPanel.setBorder(BorderFactory.createEmptyBorder(20, 10, 20, 10));
-        menuPanel.setBackground(Color.BLACK);
+        menuPanel.setBackground(new Color(15, 14, 29));
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(0, 0, 35, 0);
@@ -35,8 +34,10 @@ public class SideBarPanel extends JPanel {
 
         ModernButton btnMain = new ModernButton("INICIO");
         btnMain.setButtonSize( 0, 40);
-        ModernButton btnCashiers = new ModernButton("CAJEROS (EMPLEADOS)");
+        ModernButton btnCashiers = new ModernButton("GESTIÓN CAJEROS");
         btnCashiers.setButtonSize( 0, 40);
+        ModernButton btnCashierList = new ModernButton("REGISTRO CAJEROS");
+        btnCashierList.setButtonSize( 0, 40);
         ModernButton btnSchedules = new ModernButton("HORARIOS LABORALES");
         btnSchedules.setButtonSize( 0, 40);
         ModernButton btnGenSchedule = new ModernButton("CALENDARIO GENERAL");
@@ -44,13 +45,15 @@ public class SideBarPanel extends JPanel {
         ModernButton btnUserManual = new ModernButton("MANUAL DE USUARIO");
         btnUserManual.setButtonSize( 180, 40);
 
-        btnMain.addClickAction(e -> mainView.showPanelView("main"));
+        btnMain.addClickAction(e -> mainView.showHome());
         btnMain.addClickAction(e -> setPressedButton(btnMain));
-        btnCashiers.addClickAction(e -> mainView.showPanelView("cashiers"));
+        btnCashiers.addClickAction(e -> mainView.showCashierForm());
         btnCashiers.addClickAction(e -> setPressedButton(btnCashiers));
-        btnSchedules.addClickAction(e -> mainView.showPanelView("schedules"));
+        btnCashierList.addClickAction(e -> mainView.showCashierList());
+        btnCashierList.addClickAction(e -> setPressedButton(btnCashierList));
+        btnSchedules.addClickAction(e -> mainView.showScheduleForm());
         btnSchedules.addClickAction(e -> setPressedButton(btnSchedules));
-        btnGenSchedule.addClickAction(e -> mainView.showPanelView("genSchedule"));
+        btnGenSchedule.addClickAction(e -> mainView.showGeneralSchedule());
         btnGenSchedule.addClickAction(e -> setPressedButton(btnGenSchedule));
         btnUserManual.addClickAction(e -> mainView.openUserManual());
 
@@ -63,15 +66,16 @@ public class SideBarPanel extends JPanel {
         gbc.gridy = 2;
         menuPanel.add(btnCashiers, gbc);
         gbc.gridy = 3;
-        menuPanel.add(btnSchedules, gbc);
+        menuPanel.add(btnCashierList, gbc);
         gbc.gridy = 4;
+        menuPanel.add(btnSchedules, gbc);
+        gbc.gridy = 5;
         menuPanel.add(btnGenSchedule, gbc);
 
         gbc.weighty = 1;
         menuPanel.add(Box.createVerticalGlue(), gbc);
 
         gbc.insets = new Insets(0, 0, 0, 0);
-        gbc.fill = GridBagConstraints.NONE;
         gbc.anchor = GridBagConstraints.SOUTH;
         gbc.gridy = 6;
         menuPanel.add(btnUserManual, gbc);
@@ -84,11 +88,11 @@ public class SideBarPanel extends JPanel {
 
     private JLabel getLogo(){
         try {
-            ImageIcon icon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/icons/logo_estardelau.png")));
+            ImageIcon icon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/icons/logo1_edlu.png")));
             Image scaledImage = icon.getImage().getScaledInstance(120, 120, Image.SCALE_SMOOTH);
             return new JLabel(new ImageIcon(scaledImage));
         } catch (Exception e) {
-            System.err.println("No se pudo encontrar el ícono en: " + "/icons/logo_estardelau.png");
+            System.err.println("No se pudo encontrar el ícono en: " + "/icons/logo1_edlu.png");
         }
         return null;
     }

@@ -21,6 +21,11 @@ public interface ICashierView {
     void clearForm();
 
     /**
+     * Limpia los campo de busqueda de cajero.
+     */
+    void clearSearchField();
+
+    /**
      * Solicitud para creación de un Cashier
      */
     void createCashier();
@@ -72,10 +77,26 @@ public interface ICashierView {
     String getEmailInput();
 
     /**
+     * Petición de busqueda de un cajero a partir de su nuip.
+     * @param nuip N.I. del cajero a buscar.
+     */
+    void searchCashier(String nuip);
+
+    /**
      * Obtiene el NUIP del cajero actualmente seleccionado en la lista/tabla.
      * @return El NUIP del cajero seleccionado, o null si no hay selección.
      */
     String getSelectedCashierNuip();
+
+    /**
+     * Muestra el panel de formulario de cajeros.
+     */
+    void showCashierFormPanel();
+
+    /**
+     * Muestra el panel de listado de cajeros.
+     */
+    void showCashierListPanel();
 
     /**
      * Rellena los campos del input con los datos de un cajero específico (para edición).
@@ -87,13 +108,13 @@ public interface ICashierView {
      * Muestra un mensaje de error específico de la gestión de cajeros.
      * @param message El mensaje de error a mostrar.
      */
-    void displayError(String title, String message);
+    void displayError(String message);
 
     /**
      * Muestra un mensaje de éxito específico de la gestión de cajeros.
      * @param message El mensaje de éxito a mostrar.
      */
-    void displayMessage(String title, String message);
+    void displayMessage(String message);
 
     /**
      * Abre la vista o diálogo para gestionar los horarios (laborales o de clase) de un cajero específico.
