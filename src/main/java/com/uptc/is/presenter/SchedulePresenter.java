@@ -3,6 +3,7 @@ package com.uptc.is.presenter;
 import com.uptc.is.model.domain.Cashier;
 import com.uptc.is.model.domain.Schedule;
 import com.uptc.is.model.domain.TimeSlot;
+import com.uptc.is.model.repository.CashierRepository;
 import com.uptc.is.model.repository.ScheduleRepository;
 import com.uptc.is.view.contracts.IScheduleView;
 
@@ -13,13 +14,15 @@ import java.util.Optional;
 public class SchedulePresenter {
 
     private final ScheduleRepository scheduleRepo;
+    private final CashierRepository cashierRepo;
     private final IScheduleView view;
     private Cashier currentCashier;
     private Schedule currentSchedule;
     private TimeSlot currentTimeSlot;
 
-    public SchedulePresenter(ScheduleRepository scheduleRepository, IScheduleView scheduleView){
+    public SchedulePresenter(ScheduleRepository scheduleRepository, CashierRepository cashierRepository, IScheduleView scheduleView){
         this.scheduleRepo = scheduleRepository;
+        this.cashierRepo = cashierRepository;
         this.view = scheduleView;
         this.view.setPresenter(this);
     }
@@ -73,7 +76,7 @@ public class SchedulePresenter {
 
     private void madeSchedule(){
         Schedule schedule = new Schedule();
-        schedule.setCashier(currentCashier.getNuip());
+        schedule.setCashier(view.getNuipInput());
         schedule.setDate(view.getDateInput());
         currentSchedule = schedule;
     }
@@ -106,7 +109,7 @@ public class SchedulePresenter {
 
     private boolean validSchedule(){
         String field;
-        if(currentCashier.getNuip().isEmpty()){
+        if(view.getNuipInput().isEmpty()){
             field = "El Cajero (Humano)";
         } else if (view.getDateInput() == null) {
             field = "La fecha";
@@ -167,6 +170,24 @@ public class SchedulePresenter {
         }
         view.displayError("Franja horaria invalida");
         return false;
+    }
+
+    public void selectCashier(String nuip){
+        String message;
+        if(!nuip.isEmpty()){
+            Optional<Cashier> cashier = cashierRepo.searchById(nuip);
+            if(cashier.isPresent()){
+                view.showCashierNuip(cashier.get().getNuip());
+                currentCashier = cashier.get();
+                selectSchedule();
+            }else{
+                message = "No se ha registrado ningun cajero (humano) con ese número de identidad";
+                view.displayError(message);
+            }
+        }else{
+            message = "Ingrese el número de identidad del cajero (humano)";
+            view.displayError(message);
+        }
     }
 
     public void setCashier(Cashier cashier) {

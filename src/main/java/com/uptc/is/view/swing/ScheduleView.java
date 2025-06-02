@@ -18,22 +18,24 @@ public class ScheduleView  extends JPanel implements IScheduleView {
     private SchedulePresenter presenter;
     private JFrame frame;
     private CardLayout cardLayout;
+    private ScheduleFormPanel formPanel;
+    private CashierSchedulePanel listPanel;
+    private GenCalendarPanel calendarPanel;
 
     public ScheduleView(){
+        cardLayout = new CardLayout();
+        this.setLayout(cardLayout);
         configPanel();
     }
 
     private void configPanel(){
-        cardLayout = new CardLayout();
-        this.setLayout(cardLayout);
-
-        JPanel formPanel = new JPanel();
-        formPanel.setBackground(Color.darkGray);
-        JPanel listPanel = new JPanel();
-        listPanel.setBackground(Color.green);
+        formPanel = new ScheduleFormPanel(this);
+        listPanel = new CashierSchedulePanel();
+        calendarPanel = new GenCalendarPanel();
 
         this.add(formPanel, "form");
         this.add(listPanel, "list");
+        this.add(calendarPanel, "calendar");
     }
 
     @Override
@@ -72,23 +74,33 @@ public class ScheduleView  extends JPanel implements IScheduleView {
     }
 
     @Override
+    public String getNuipInput() {
+        return formPanel.getNuip();
+    }
+
+    @Override
     public LocalDate getDateInput() {
-        return null;
+        return formPanel.getDate();
     }
 
     @Override
     public DayOfWeek getDayOfWeekInput() {
-        return null;
+        return formPanel.getDay();
     }
 
     @Override
     public LocalTime getStartTimeInput() {
-        return null;
+        return formPanel.getStarTime();
     }
 
     @Override
     public LocalTime getEndTimeInput() {
-        return null;
+        return formPanel.getEndTime();
+    }
+
+    @Override
+    public void searchCashier(String nuip) {
+        presenter.selectCashier(nuip);
     }
 
     @Override
@@ -99,6 +111,11 @@ public class ScheduleView  extends JPanel implements IScheduleView {
     @Override
     public String getSelectedTimeSlotId() {
         return "";
+    }
+
+    @Override
+    public void showCashierNuip(String nuip) {
+        formPanel.setNuip(nuip);
     }
 
     @Override

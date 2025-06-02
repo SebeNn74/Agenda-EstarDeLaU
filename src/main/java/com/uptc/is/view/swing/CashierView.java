@@ -15,8 +15,8 @@ public class CashierView extends JPanel implements ICashierView {
     private CashierPresenter presenter;
     private JFrame frame;
     private CardLayout cardLayout;
-    CashierFormPanel formPanel;
-    CashierListPanel listPanel;
+    private CashierFormPanel formPanel;
+    private CashierListPanel listPanel;
 
     public CashierView(){
         cardLayout = new CardLayout();

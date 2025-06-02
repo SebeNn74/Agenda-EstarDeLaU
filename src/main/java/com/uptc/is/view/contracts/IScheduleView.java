@@ -1,5 +1,6 @@
 package com.uptc.is.view.contracts;
 
+import com.uptc.is.model.domain.Cashier;
 import com.uptc.is.model.domain.Schedule;
 import com.uptc.is.model.domain.ScheduleType;
 import com.uptc.is.presenter.SchedulePresenter;
@@ -51,6 +52,12 @@ public interface IScheduleView {
     void removeTimeSlot();
 
     /**
+     * Obtiene el NUIP ingresado por el usuario en el input.
+     * @return El NUIP como String.
+     */
+    String getNuipInput();
+
+    /**
      * Obtiene la fecha seleccionada por el usuario.
      * @return El LocalDate.
      */
@@ -75,6 +82,12 @@ public interface IScheduleView {
     LocalTime getEndTimeInput();
 
     /**
+     * Petición de busqueda de un cajero a partir de su nuip.
+     * @param nuip N.I. del cajero a buscar.
+     */
+    void searchCashier(String nuip);
+
+    /**
      * Obtiene el ID del horario actualmente seleccionado en la lista/tabla.
      * Usado para identificar qué horario se quiere eliminar.
      * @return El ID del horario seleccionado, o null si no hay selección.
@@ -87,6 +100,12 @@ public interface IScheduleView {
      * @return El ID de la franja horaria seleccionada, o null si no hay selección.
      */
     String getSelectedTimeSlotId();
+
+    /**
+     * Rellena el campo nuip del formulario de Schedules.
+     * @param nuip El nuip del cashier buscado.
+     */
+    void showCashierNuip(String nuip);
 
     /**
      * Muestra el panel de formulario de cajeros.

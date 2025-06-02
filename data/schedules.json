@@ -1,0 +1,11 @@
+[ {
+  "id" : "H1",
+  "cashier" : "12",
+  "date" : "2025-06-18",
+  "timeSlots" : { }
+}, {
+  "id" : "H2",
+  "cashier" : "12",
+  "date" : "2024-06-10",
+  "timeSlots" : { }
+} ]

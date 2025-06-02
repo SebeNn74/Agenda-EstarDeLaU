@@ -3,7 +3,6 @@ package com.uptc.is.view.swing;
 import com.uptc.is.model.domain.Cashier;
 import com.uptc.is.view.contracts.ICashierView;
 import com.uptc.is.view.custom_components.*;
-import net.bytebuddy.matcher.StringMatcher;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;

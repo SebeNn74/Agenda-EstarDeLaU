@@ -30,7 +30,7 @@ public class Main {
         IScheduleView scheduleView = new ScheduleView();
 
         CashierPresenter cashierPresenter = new CashierPresenter(cashiersRepository, cashierView);
-        SchedulePresenter schedulePresenter = new SchedulePresenter(scheduleRepository, scheduleView);
+        SchedulePresenter schedulePresenter = new SchedulePresenter(scheduleRepository, cashiersRepository ,scheduleView);
 
         IMainView mainView = new MainView(cashierView, scheduleView);
         new MainPresenter(mainView, cashierPresenter, schedulePresenter);
