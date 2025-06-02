@@ -49,7 +49,7 @@ public class CashierPresenter {
                 cashierRepo.create(madeCashier());
                 view.displayCashierList(cashierRepo.getAll());
                 view.clearForm();
-                System.out.println("Cajero "+view.getNuipInput()+" creado");
+                view.displayMessage("Cajero creado con exito");
             }else{
                 String message = "Ya existe un empleado con el mismo número de identificación";
                 view.displayError(message);
@@ -85,21 +85,32 @@ public class CashierPresenter {
     }
 
     public void updateCashier(){
-        String message;
         if(validCashier()){
             cashierRepo.update(madeCashier());
-            message = "Los cambios en el cajero (humano) se guardaron con exito";
+            String message = "Los cambios en el cajero (humano) se guardaron con exito";
             view.displayMessage(message);
             view.displayCashierList(cashierRepo.getAll());
         }
     }
 
     public void removeCashier(){
-        String message = "El registro del cajero (humano) se eliminó con exito";
-        cashierRepo.remove(view.getNuipInput());
-        view.displayMessage(message);
-        view.clearForm();
-        view.displayCashierList(cashierRepo.getAll());
+        String message;
+        if(!view.getNuipInput().isEmpty()){
+            Optional<Cashier> cashier = cashierRepo.searchById(view.getNuipInput());
+            if(cashier.isPresent()){
+                message = "El registro del cajero (humano) se eliminó con exito";
+                cashierRepo.remove(view.getNuipInput());
+                view.displayMessage(message);
+                view.clearForm();
+                view.displayCashierList(cashierRepo.getAll());
+            }else{
+                message = "No se ha registrado ningun cajero (humano) con ese número de identidad";
+                view.displayError(message);
+            }
+        }else{
+            message = "Primero debe ingresar o seleccionar un cajero";
+            view.displayError(message);
+        }
     }
 
     private boolean validCashier(){

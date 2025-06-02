@@ -17,8 +17,8 @@ public class CustomTable extends JTable {
 
     private void config() {
         // Fuente general
-        this.setFont(FontLoader.loadFont("/fonts/Montserrat-SemiBold.ttf", 15f));
-        this.setRowHeight(30);
+        this.setFont(FontLoader.loadFont("/fonts/Montserrat-Regular.ttf", 15f));
+        this.setRowHeight(32);
 
         // Colores zebra (alternancia de colores por fila)
         this.setDefaultRenderer(Object.class, new ZebraTableCellRenderer());
@@ -30,6 +30,7 @@ public class CustomTable extends JTable {
         header.setForeground(Color.WHITE);
         header.setPreferredSize(new Dimension(header.getWidth(), 35));
         header.setReorderingAllowed(false);
+        header.setBorder(BorderFactory.createLineBorder(new Color(10, 55, 95)));
         this.setTableHeader(header);
 
         // Bordes y líneas
@@ -37,6 +38,7 @@ public class CustomTable extends JTable {
         this.setShowVerticalLines(true);
         this.setGridColor(new Color(220, 220, 220));
         this.setIntercellSpacing(new Dimension(2, 0));
+        this.setBorder(BorderFactory.createLineBorder(new Color(10, 55, 95)));
     }
 
     // Clase interna para celdas tipo "zebra"

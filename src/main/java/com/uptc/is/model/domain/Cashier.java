@@ -1,7 +1,7 @@
 package com.uptc.is.model.domain;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Cashier {
 
@@ -12,16 +12,22 @@ public class Cashier {
     private String telNumber;
     private String email;
 
-    private List<Schedule> workingSchedule;
-    private List<Schedule> classSchedule;
+    private Set<String> workingSchedule;
 
     public Cashier(){}
 
     public Cashier(String nuip, String studentCode){
         this.nuip = nuip;
         this.studentCode = studentCode;
-        workingSchedule = new ArrayList<>();
-        classSchedule = new ArrayList<>();
+        workingSchedule = new HashSet<>();
+    }
+
+    public void addScheduleId(String id){
+        workingSchedule.add(id);
+    }
+
+    public void removeScheduleId(String id){
+        workingSchedule.remove(id);
     }
 
     //Getters y Setters
@@ -70,20 +76,12 @@ public class Cashier {
         this.email = email;
     }
 
-    public List<Schedule> getWorkingSchedule() {
+    public Set<String> getWorkingSchedule() {
         return workingSchedule;
     }
 
-    public void setWorkingSchedule(List<Schedule> workingSchedule) {
+    public void setWorkingSchedule(Set<String> workingSchedule) {
         this.workingSchedule = workingSchedule;
-    }
-
-    public List<Schedule> getClassSchedule() {
-        return classSchedule;
-    }
-
-    public void setClassSchedule(List<Schedule> classSchedule) {
-        this.classSchedule = classSchedule;
     }
 
     @Override

@@ -1,26 +1,19 @@
 package com.uptc.is.model.domain;
 
-import com.uptc.is.util.IdGenerator;
-
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 
 public class TimeSlot {
 
-    private String id;
     private DayOfWeek day;
     private LocalTime startTime;
     private LocalTime endTime;
 
     public TimeSlot(){
-        this.id = IdGenerator.generateId("F");
+
     }
 
     //Getters y Setters
-
-    public String getID() {
-        return id;
-    }
 
     public DayOfWeek getDay() {
         return day;
@@ -49,7 +42,6 @@ public class TimeSlot {
     @Override
     public String toString() {
         return "TimeSlot{" +
-                "id='" + id +
                 ", day=" + day +
                 ", startTime=" + startTime +
                 ", endTime=" + endTime +

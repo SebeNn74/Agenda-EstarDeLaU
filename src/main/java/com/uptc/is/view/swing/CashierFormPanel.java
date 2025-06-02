@@ -10,6 +10,8 @@ import javax.swing.table.TableColumnModel;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.List;
 
 public class CashierFormPanel extends JPanel {
@@ -29,6 +31,8 @@ public class CashierFormPanel extends JPanel {
     private BasicCashierTable tableModel;
     private CustomTable cashierTable;
     private JScrollPane spRecords;
+
+    private boolean deleteActive;
 
     public CashierFormPanel(ICashierView cashierView) {
         this.setLayout(new BorderLayout());
@@ -77,8 +81,8 @@ public class CashierFormPanel extends JPanel {
         email.addActionListener(e -> addCashier.doClick());
 
         addCashier = new ModernButton("CREAR NUEVO CAJERO");
-        addCashier.addClickAction(e -> {if(deleteCashier.isVisible()) cashierView.clearForm();});
-        addCashier.addClickAction(e -> {if(!deleteCashier.isVisible()) cashierView.createCashier();});
+        addCashier.addClickAction(e -> {if(deleteActive) cashierView.clearForm();});
+        addCashier.addClickAction(e -> {if(!deleteActive) cashierView.createCashier();});
         addCashier.setButtonSize( 200, 35);
 
         updateCashier = ModernButtonFactory.success("ACTUALIZAR CAJERO");
@@ -89,7 +93,6 @@ public class CashierFormPanel extends JPanel {
         deleteCashier = ModernButtonFactory.danger("ELIMINAR CAJERO");
         deleteCashier.addClickAction(e -> cashierView.removeCashier());
         deleteCashier.setButtonSize( 190, 35);
-        deleteCashier.setVisible(false);
 
         gbc.gridy = 0;
         inputPanel.add(nuip, gbc);
@@ -148,6 +151,15 @@ public class CashierFormPanel extends JPanel {
         cashierTable.setFillsViewportHeight(true);
         cashierTable.setRowHeight(25);
 
+        cashierTable.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 2 && SwingUtilities.isLeftMouseButton(e)) {
+                    cashierView.searchCashier(getSelectedCashierNuip());
+                }
+            }
+        });
+
         spRecords = new JScrollPane(cashierTable);
         spRecords.setPreferredSize(new Dimension(this.getWidth(), this.getHeight()));
         spRecords.setBorder(new EmptyBorder(10, 0, 10, 0));
@@ -196,7 +208,7 @@ public class CashierFormPanel extends JPanel {
         email.clearField();
 
         updateCashier.setVisible(false);
-        deleteCashier.setVisible(false);
+        deleteActive = false;
         nuip.setEditable(true);
     }
 
@@ -226,6 +238,11 @@ public class CashierFormPanel extends JPanel {
         return email.getText();
     }
 
+    public String getSelectedCashierNuip(){
+        int modelRow = cashierTable.convertRowIndexToModel(cashierTable.getSelectedRow());
+        return cashierTable.getModel().getValueAt(modelRow, 0).toString();
+    }
+
     public void setCashier(Cashier cashier){
         nuip.setText(cashier.getNuip());
         names.setText(cashier.getNames());
@@ -235,7 +252,7 @@ public class CashierFormPanel extends JPanel {
         email.setText(cashier.getEmail());
 
         updateCashier.setVisible(true);
-        deleteCashier.setVisible(true);
+        deleteActive = true;
         nuip.setEditable(false);
     }
 

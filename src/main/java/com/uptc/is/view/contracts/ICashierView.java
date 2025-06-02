@@ -20,6 +20,7 @@ public interface ICashierView {
      */
     void clearForm();
 
+
     /**
      * Limpia los campo de busqueda de cajero.
      */

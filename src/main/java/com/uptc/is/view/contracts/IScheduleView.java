@@ -20,6 +20,12 @@ public interface IScheduleView {
     void displaySchedules(List<Schedule> schedules);
 
     /**
+     * Muestra una lista de cajeros.
+     * @param cashiers Lista de objetos Cashier a mostrar.
+     */
+    void displayCashierList(List<Cashier> cashiers);
+
+    /**
      * Establece un título o mensaje de contexto para la vista de horarios.
      * Ej: "-Tipo de horario- de -Nombre-"
      * @param contextMessage El mensaje de contexto.
@@ -31,6 +37,12 @@ public interface IScheduleView {
      */
     void clearForm();
 
+
+    /**
+     * Limpia los campo de busqueda de cajero.
+     */
+    void clearSearchField();
+
     /**
      * Solicitud para creación de un horario
      */
@@ -40,16 +52,6 @@ public interface IScheduleView {
      * Solicitud para eliminación de un horario
      */
     void removeSchedule();
-
-    /**
-     * Solicitud para creación de una franja horaria
-     */
-    void createTimeSlot();
-
-    /**
-     * Solicitud para eliminación de una franja horaria
-     */
-    void removeTimeSlot();
 
     /**
      * Obtiene el NUIP ingresado por el usuario en el input.
@@ -88,18 +90,17 @@ public interface IScheduleView {
     void searchCashier(String nuip);
 
     /**
+     * Petición de busqueda de un horario a partir de su id.
+     * @param id del horario buscado.
+     */
+    void searchSchedule(String id);
+
+    /**
      * Obtiene el ID del horario actualmente seleccionado en la lista/tabla.
      * Usado para identificar qué horario se quiere eliminar.
      * @return El ID del horario seleccionado, o null si no hay selección.
      */
     String getSelectedScheduleId();
-
-    /**
-     * Obtiene el ID de la franja horaria actualmente seleccionado en el horario.
-     * Usado para identificar qué franja horaria se quiere eliminar.
-     * @return El ID de la franja horaria seleccionada, o null si no hay selección.
-     */
-    String getSelectedTimeSlotId();
 
     /**
      * Rellena el campo nuip del formulario de Schedules.

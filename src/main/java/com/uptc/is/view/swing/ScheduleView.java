@@ -1,5 +1,6 @@
 package com.uptc.is.view.swing;
 
+import com.uptc.is.model.domain.Cashier;
 import com.uptc.is.model.domain.Schedule;
 import com.uptc.is.model.domain.ScheduleType;
 import com.uptc.is.presenter.SchedulePresenter;
@@ -40,7 +41,12 @@ public class ScheduleView  extends JPanel implements IScheduleView {
 
     @Override
     public void displaySchedules(List<Schedule> schedules) {
+        formPanel.updateSchedules(schedules);
+    }
 
+    @Override
+    public void displayCashierList(List<Cashier> cashiers) {
+        formPanel.updateCashiers(cashiers);
     }
 
     @Override
@@ -50,7 +56,12 @@ public class ScheduleView  extends JPanel implements IScheduleView {
 
     @Override
     public void clearForm() {
+        formPanel.clearForm();
+    }
 
+    @Override
+    public void clearSearchField() {
+        formPanel.clearSearchField();
     }
 
     @Override
@@ -61,16 +72,6 @@ public class ScheduleView  extends JPanel implements IScheduleView {
     @Override
     public void removeSchedule() {
         presenter.removeSchedule();
-    }
-
-    @Override
-    public void createTimeSlot() {
-        presenter.createTimeSlot();
-    }
-
-    @Override
-    public void removeTimeSlot() {
-        presenter.removeTimeSlot();
     }
 
     @Override
@@ -104,13 +105,13 @@ public class ScheduleView  extends JPanel implements IScheduleView {
     }
 
     @Override
-    public String getSelectedScheduleId() {
-        return "";
+    public void searchSchedule(String id) {
+        presenter.selectSchedule(id);
     }
 
     @Override
-    public String getSelectedTimeSlotId() {
-        return "";
+    public String getSelectedScheduleId() {
+        return formPanel.getSelectedScheduleId();
     }
 
     @Override
@@ -121,16 +122,18 @@ public class ScheduleView  extends JPanel implements IScheduleView {
     @Override
     public void showScheduleFormPanel() {
         cardLayout.show(this, "form");
+        presenter.loadData();
     }
 
     @Override
     public void showScheduleListPanel() {
         cardLayout.show(this, "list");
+        presenter.loadData();
     }
 
     @Override
     public void showScheduleDetails(Schedule schedule) {
-
+        formPanel.setSchedule(schedule);
     }
 
     @Override

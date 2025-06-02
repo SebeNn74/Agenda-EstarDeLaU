@@ -3,32 +3,17 @@ package com.uptc.is.model.domain;
 import com.uptc.is.util.IdGenerator;
 
 import java.time.LocalDate;
-import java.util.HashMap;
 
 public class Schedule {
 
     private String id;
     private String cashier;
     private LocalDate date;
-    private HashMap<String, TimeSlot> timeSlots;
+    private TimeSlot timeSlot;
 
     public Schedule() {
         this.id = IdGenerator.generateId("H");
-        this.timeSlots = new HashMap<>();
-    }
-
-    //Añadir nueva franja horaria
-    public boolean addTimeSlot(TimeSlot timeSlot){
-        if(!timeSlots.containsKey(timeSlot.getID())){
-            timeSlots.put(timeSlot.getID(), timeSlot );
-            return true;
-        }
-        return false;
-    }
-
-    //Eliminar franja horaria
-    public boolean removeTimeSlot(String timeSlotID){
-        return timeSlots.remove(timeSlotID) != null;
+        this.timeSlot = new TimeSlot();
     }
 
     //Getters y Setters
@@ -53,12 +38,12 @@ public class Schedule {
         this.date = date;
     }
 
-    public HashMap<String, TimeSlot> getTimeSlots() {
-        return timeSlots;
+    public TimeSlot getTimeSlot() {
+        return timeSlot;
     }
 
-    public void setTimeSlots(HashMap<String, TimeSlot> timeSlots) {
-        this.timeSlots = timeSlots;
+    public void setTimeSlot(TimeSlot timeSlot) {
+        this.timeSlot = timeSlot;
     }
 
     @Override
@@ -67,7 +52,7 @@ public class Schedule {
                 "id='" + id + '\'' +
                 ", cashier='" + cashier + '\'' +
                 ", date=" + date +
-                ", timeSlots=" + timeSlots +
+                ", timeSlot=" + timeSlot +
                 '}';
     }
 }

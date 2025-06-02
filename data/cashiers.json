@@ -5,8 +5,7 @@
   "studentCode" : "202211892",
   "telNumber" : "3124033131",
   "email" : "sebastian.nino06@uptc.edu.co",
-  "workingSchedule" : [ ],
-  "classSchedule" : [ ]
+  "workingSchedule" : [ ]
 }, {
   "nuip" : "123",
   "names" : "Jose Maria",
@@ -14,24 +13,13 @@
   "studentCode" : "2222334",
   "telNumber" : "310555533",
   "email" : "jose.rojas@siu.co",
-  "workingSchedule" : [ ],
-  "classSchedule" : [ ]
+  "workingSchedule" : [ ]
 }, {
-  "nuip" : "12",
-  "names" : "12345",
-  "surnames" : "6789",
-  "studentCode" : "010203",
-  "telNumber" : "123",
-  "email" : "123",
-  "workingSchedule" : [ ],
-  "classSchedule" : [ ]
-}, {
-  "nuip" : "1002331313",
-  "names" : "Laura Daniela",
-  "surnames" : "Malagon Monroy",
-  "studentCode" : "202113984",
-  "telNumber" : "3214418615",
-  "email" : "laura.malagon02@uptc.edu.co",
-  "workingSchedule" : [ ],
-  "classSchedule" : [ ]
+  "nuip" : "1",
+  "names" : "1",
+  "surnames" : "1",
+  "studentCode" : "11",
+  "telNumber" : "1",
+  "email" : "1",
+  "workingSchedule" : [ "H2", "H3" ]
 } ]

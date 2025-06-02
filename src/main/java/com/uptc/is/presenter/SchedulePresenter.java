@@ -21,10 +21,11 @@ public class SchedulePresenter {
     private TimeSlot currentTimeSlot;
 
     public SchedulePresenter(ScheduleRepository scheduleRepository, CashierRepository cashierRepository, IScheduleView scheduleView){
-        this.scheduleRepo = scheduleRepository;
         this.cashierRepo = cashierRepository;
+        this.scheduleRepo = scheduleRepository;
         this.view = scheduleView;
         this.view.setPresenter(this);
+        this.view.displayCashierList(cashierRepo.getAll());
     }
 
     public void test(){
@@ -54,23 +55,26 @@ public class SchedulePresenter {
         ts.setDay(date.getDayOfWeek());
         ts.setStartTime(LocalTime.of(9,0));
         ts.setEndTime(LocalTime.of(11,0));
-        schedule2.addTimeSlot(ts);
+        schedule2.setTimeSlot(ts);
         scheduleRepo.update(schedule2);
         System.out.println(schedule2);
 
     }
 
-    public void showSchedules(){
+    public void loadData(){
         view.displaySchedules(scheduleRepo.getAll());
+        view.displayCashierList(cashierRepo.getAll());
     }
 
     public void createSchedule(){
         if(validSchedule()){
             madeSchedule();
             scheduleRepo.create(currentSchedule);
+            currentCashier.addScheduleId(currentSchedule.getID());
+            cashierRepo.update(currentCashier);
             view.displaySchedules(scheduleRepo.getAll());
+            view.displayMessage("Horario asignado con exito");
             view.clearForm();
-            System.out.println("Horario "+currentSchedule.getID()+" creado");
         }
     }
 
@@ -78,60 +82,40 @@ public class SchedulePresenter {
         Schedule schedule = new Schedule();
         schedule.setCashier(view.getNuipInput());
         schedule.setDate(view.getDateInput());
+        madeTimeSlot();
+        schedule.setTimeSlot(currentTimeSlot);
         currentSchedule = schedule;
     }
 
-    public void selectSchedule(){
-        String message;
-        if(view.getSelectedScheduleId().isEmpty()){
-            Optional<Schedule> schedule = scheduleRepo.searchById(view.getSelectedScheduleId());
-            if(schedule.isPresent()){
-                currentSchedule = schedule.get();
-                view.showScheduleDetails(schedule.get());
-                System.out.println("Horario "+currentSchedule.getID()+" encontrado");
-            }else{
-                message = "No se ha registrado ningun horario con ese id";
-                view.displayError(message);
-            }
-        }else{
-            message = "Ingrese el id del horario";
-            view.displayError(message);
-        }
-    }
-
     public void removeSchedule(){
-        String message;
         scheduleRepo.remove(currentSchedule.getID());
-        message = "El registro del horario se eliminó con exito";
+        currentCashier.removeScheduleId(currentSchedule.getID());
+        cashierRepo.update(currentCashier);
+        view.displaySchedules(scheduleRepo.getAll());
+        String message = "El registro del horario se eliminó con exito";
         view.displayMessage(message);
-        System.out.println("Horario "+currentSchedule.getID()+" eliminado");
+        view.clearForm();
     }
 
     private boolean validSchedule(){
-        String field;
+        String message;
         if(view.getNuipInput().isEmpty()){
-            field = "El Cajero (Humano)";
+            message = "El Número de identidad del cajero no puede estar vació";
         } else if (view.getDateInput() == null) {
-            field = "La fecha";
+            message = "Debe seleccionar una fecha";
+        }else if (validTimeSlot()){
+            Optional<Cashier> cashier = cashierRepo.searchById(view.getNuipInput());
+            if (cashier.isPresent()){
+                currentCashier = cashier.get();
+                return true;
+            }else{
+                message = "No se ha registrado ningun cajero (humano) con ese número de identidad";
+            }
         }else{
-            return true;
+            return false;
         }
-        //Si algun campo de las entradas esta vacio
-        String message = field+" no puede estar vacío";
         view.displayError(message);
         return false;
-    }
-
-    public void createTimeSlot(){
-        if (validTimeSlot()){
-            madeTimeSlot();
-            if(currentSchedule.addTimeSlot(currentTimeSlot)){
-                scheduleRepo.update(currentSchedule);
-                view.displaySchedules(scheduleRepo.getAll());
-                view.clearForm();
-                System.out.println("Franja "+currentTimeSlot.getID()+" creada");
-            }
-        }
     }
 
     private void madeTimeSlot(){
@@ -142,34 +126,36 @@ public class SchedulePresenter {
         currentTimeSlot = timeSlot;
     }
 
-    public void removeTimeSlot(){
-        String message;
-        if(currentSchedule.removeTimeSlot(view.getSelectedTimeSlotId())){
-            scheduleRepo.update(currentSchedule);
-            message = "La franja horaria se eliminó con exito";
-            view.displayMessage(message);
-            System.out.println("Franja "+currentSchedule.getID()+" eliminada");
-        }
-    }
-
     private boolean validTimeSlot(){
         String field;
-        if(!currentCashier.getNuip().isEmpty() && !currentSchedule.getID().isEmpty()){
-            if (view.getDayOfWeekInput() == null) {
-                field = "El Día";
-            } else if (view.getStartTimeInput() == null) {
-                field = "La hora de inicio";
-            } else if (view.getEndTimeInput() == null) {
-                field = "La hora de fin";
-            }else {
-                return true;
-            }
-            String message = field+"  no puede estar vacío";
-            view.displayError(message);
-            return false;
+        if (view.getStartTimeInput() == null) {
+            field = "La hora de inicio";
+        } else if (view.getEndTimeInput() == null) {
+            field = "La hora de fin";
+        }else {
+            return true;
         }
-        view.displayError("Franja horaria invalida");
+        String message = field+"  no puede estar vacía";
+        view.displayError(message);
         return false;
+    }
+
+    public void selectSchedule(String id){
+        String message;
+        if(!id.isEmpty()){
+            Optional<Schedule> schedule = scheduleRepo.searchById(id);
+            if(schedule.isPresent()){
+                view.showScheduleDetails(schedule.get());
+                currentSchedule = schedule.get();
+                view.displaySchedules(scheduleRepo.getAll());
+            }else{
+                message = "No se ha registrado ningun cajero (humano) con ese número de identidad";
+                view.displayError(message);
+            }
+        }else{
+            message = "Primero debe seleccionar un horario de la lista";
+            view.displayError(message);
+        }
     }
 
     public void selectCashier(String nuip){
@@ -178,13 +164,14 @@ public class SchedulePresenter {
             Optional<Cashier> cashier = cashierRepo.searchById(nuip);
             if(cashier.isPresent()){
                 view.showCashierNuip(cashier.get().getNuip());
-                currentCashier = cashier.get();
-                selectSchedule();
+                setCashier(cashier.get());
+                view.clearSearchField();
             }else{
                 message = "No se ha registrado ningun cajero (humano) con ese número de identidad";
                 view.displayError(message);
             }
         }else{
+            view.displaySchedules(scheduleRepo.getAll());
             message = "Ingrese el número de identidad del cajero (humano)";
             view.displayError(message);
         }

@@ -2,11 +2,11 @@ package com.uptc.is.view.swing;
 
 import com.github.lgooddatepicker.components.CalendarPanel;
 import com.github.lgooddatepicker.components.TimePicker;
-import com.github.lgooddatepicker.components.TimePickerSettings;
 import com.github.lgooddatepicker.optionalusertools.CalendarListener;
 import com.github.lgooddatepicker.zinternaltools.CalendarSelectionEvent;
-import com.github.lgooddatepicker.zinternaltools.TimeMenuPanel;
 import com.github.lgooddatepicker.zinternaltools.YearMonthChangeEvent;
+import com.uptc.is.model.domain.Cashier;
+import com.uptc.is.model.domain.Schedule;
 import com.uptc.is.util.FontLoader;
 import com.uptc.is.view.contracts.IScheduleView;
 import com.uptc.is.view.custom_components.*;
@@ -17,10 +17,13 @@ import javax.swing.table.TableColumnModel;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 public class ScheduleFormPanel extends JPanel {
 
@@ -32,9 +35,13 @@ public class ScheduleFormPanel extends JPanel {
     private CalendarPanel calendarPanel;
     private TimePicker startTimePicker;
     private TimePicker endTimePicker;
-    private BasicCashierTable tableModel;
+    private ModernButton deleteSchedule;
+    private BasicCashierTable cashierTbModel;
+    private BasicScheduleTable scheduleTbModel;
     private CustomTable cashierTable;
-    private JScrollPane spRecords;
+    private CustomTable scheduleTable;
+    private JScrollPane spCashierTb;
+    private JScrollPane spScheduleTb;
 
     public ScheduleFormPanel(IScheduleView scheduleView){
         this.setLayout(new BorderLayout());
@@ -49,7 +56,7 @@ public class ScheduleFormPanel extends JPanel {
         inputPanel.setBorder(new EmptyBorder(30, 30, 30, 30));
 
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(0, 0, 25, 0);
+        gbc.insets = new Insets(0, 0, 40, 0);
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.anchor = GridBagConstraints.NORTH;
         gbc.weightx = 1;
@@ -66,10 +73,6 @@ public class ScheduleFormPanel extends JPanel {
 
         configCalendar();
 
-        ModernButton createSchedule = new ModernButton("CREAR NUEVO HORARIO");
-        createSchedule.addClickAction(e -> scheduleView.createSchedule());
-        createSchedule.setButtonSize( 220, 35);
-
         JLabel startTimeLb = new JLabel("Hora de Inicio:");
         startTimeLb.setFont(FontLoader.loadFont("/fonts/Montserrat-Bold.ttf", 14.5f));
         JLabel endTimeLb = new JLabel("Hora de Fin:");
@@ -78,13 +81,15 @@ public class ScheduleFormPanel extends JPanel {
         startTimePicker = new TimePicker();
         endTimePicker = new TimePicker();
 
-        ModernButton createTimeSlot = new ModernButton("CREAR FRANJA HORARIA");
-        createTimeSlot.addClickAction(e -> scheduleView.createTimeSlot());
-        createTimeSlot.setButtonSize( 240, 35);
+        ModernButton createSchedule = new ModernButton("CREAR NUEVO HORARIO");
+        createSchedule.addClickAction(e -> {if(deleteSchedule.isVisible()) scheduleView.clearForm();});
+        createSchedule.addClickAction(e -> {if(!deleteSchedule.isVisible()) scheduleView.createSchedule();});
+        createSchedule.setButtonSize( 220, 35);
 
-        ModernButton deleteTimeSlot = ModernButtonFactory.danger("ELIMINAR FRANJA HORARIA");
-        deleteTimeSlot.addClickAction(e -> scheduleView.createTimeSlot());
-        deleteTimeSlot.setButtonSize( 240, 35);
+        deleteSchedule = ModernButtonFactory.danger("ELIMINAR HORARIO");
+        deleteSchedule.addClickAction(e -> scheduleView.removeSchedule());
+        deleteSchedule.setButtonSize( 220, 35);
+        deleteSchedule.setVisible(false);
 
         gbc.gridy = 0;
         inputPanel.add(nuip, gbc);
@@ -93,38 +98,34 @@ public class ScheduleFormPanel extends JPanel {
         gbc.gridy = 1;
         inputPanel.add(dateLb, gbc);
 
-        gbc.insets = new Insets(0, 0, 20, 0);
+        gbc.insets = new Insets(0, 0, 40, 0);
         gbc.fill = GridBagConstraints.NONE;
         gbc.anchor = GridBagConstraints.NORTH;
         gbc.gridy = 2;
         inputPanel.add(calendarPanel, gbc);
 
-        gbc.insets = new Insets(0, 0, 50, 0);
-        gbc.gridy = 3;
-        inputPanel.add(createSchedule, gbc);
-
         gbc.insets = new Insets(0, 0, 5, 0);
         gbc.gridwidth = 1;
-        gbc.gridy = 4; gbc.gridx = 0;
+        gbc.gridy = 3; gbc.gridx = 0;
         inputPanel.add(startTimeLb, gbc);
 
-        gbc.gridy = 4; gbc.gridx = 1;
+        gbc.gridy = 3; gbc.gridx = 1;
         inputPanel.add(endTimeLb, gbc);
 
-        gbc.gridy = 5; gbc.gridx = 0;
+        gbc.gridy = 4; gbc.gridx = 0;
         inputPanel.add(startTimePicker, gbc);
 
-        gbc.insets = new Insets(0, 0, 20, 0);
-        gbc.gridy = 5; gbc.gridx = 1;
+        gbc.insets = new Insets(0, 0, 40, 0);
+        gbc.gridy = 4; gbc.gridx = 1;
         inputPanel.add(endTimePicker, gbc);
 
+        gbc.insets = new Insets(0, 0, 30, 0);
         gbc.gridwidth = 2;
-        gbc.gridy = 6; gbc.gridx = 0;
-        inputPanel.add(createTimeSlot, gbc);
+        gbc.gridy = 5; gbc.gridx = 0;
+        inputPanel.add(createSchedule, gbc);
 
-        gbc.insets = new Insets(0, 0, 10, 0);
-        gbc.gridy = 7; gbc.gridx = 0;
-        inputPanel.add(deleteTimeSlot, gbc);
+        gbc.gridy = 6; gbc.gridx = 0;
+        inputPanel.add(deleteSchedule, gbc);
 
         gbc.weighty = 1;
         inputPanel.add(Box.createVerticalGlue(), gbc);
@@ -157,18 +158,35 @@ public class ScheduleFormPanel extends JPanel {
         gbc.gridx = 1;
         topPanel.add(searchCashier, gbc);
 
-        tableModel = new BasicCashierTable();
-        cashierTable = new CustomTable(tableModel);
+        cashierTbModel = new BasicCashierTable();
+        cashierTable = new CustomTable(cashierTbModel);
         cashierTable.setFillsViewportHeight(true);
         cashierTable.setRowHeight(25);
 
-        spRecords = new JScrollPane(cashierTable);
-        spRecords.setPreferredSize(new Dimension(this.getWidth(), this.getHeight()));
-        spRecords.setBorder(new EmptyBorder(10, 0, 10, 0));
-        spRecords.getVerticalScrollBar().setUI(new CustomScrollBarUI());
+        spCashierTb = new JScrollPane(cashierTable);
+        spCashierTb.setPreferredSize(new Dimension(this.getWidth(), this.getHeight()));
+        spCashierTb.setBorder(new EmptyBorder(10, 0, 10, 0));
+        spCashierTb.getVerticalScrollBar().setUI(new CustomScrollBarUI());
+
+        scheduleTbModel = new BasicScheduleTable();
+        scheduleTable = new CustomTable(scheduleTbModel);
+        scheduleTable.setFillsViewportHeight(true);
+        scheduleTable.setRowHeight(25);
+        configTableListeners(scheduleView);
+
+        spScheduleTb = new JScrollPane(scheduleTable);
+        spScheduleTb.setPreferredSize(new Dimension(this.getWidth(), this.getHeight()));
+        spScheduleTb.setBorder(new EmptyBorder(10, 0, 10, 0));
+        spScheduleTb.getVerticalScrollBar().setUI(new CustomScrollBarUI());
+
+        JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, spCashierTb, spScheduleTb);
+        splitPane.setBorder(null);
+        splitPane.setResizeWeight(0.5);
+        splitPane.setDividerSize(0);
+        splitPane.setContinuousLayout(true);
 
         listPanel.add(topPanel, BorderLayout.NORTH);
-        listPanel.add(spRecords, BorderLayout.CENTER);
+        listPanel.add(splitPane, BorderLayout.CENTER);
     }
 
     private void configSplitPane(){
@@ -205,10 +223,10 @@ public class ScheduleFormPanel extends JPanel {
     private void configResponsiveColumns() {
         double[] widths = {0.25, 0.25, 0.5};
 
-        spRecords.addComponentListener(new ComponentAdapter() {
+        spCashierTb.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
-                int totalWidth = spRecords.getViewport().getWidth();
+                int totalWidth = spCashierTb.getViewport().getWidth();
                 TableColumnModel columnModel = cashierTable.getColumnModel();
                 for (int i = 0; i < widths.length; i++) {
                     columnModel.getColumn(i).setPreferredWidth((int) (totalWidth * widths[i]));
@@ -216,6 +234,57 @@ public class ScheduleFormPanel extends JPanel {
             }
         });
     }
+
+    private void configTableListeners(IScheduleView scheduleView){
+        TableColumnModel columnModel = scheduleTable.getColumnModel();
+        columnModel.getColumn(0).setMinWidth(0);
+        columnModel.getColumn(0).setMaxWidth(0);
+        columnModel.getColumn(0).setPreferredWidth(0);
+
+        scheduleTable.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 2 && SwingUtilities.isLeftMouseButton(e)) {
+                    scheduleView.searchSchedule(getSelectedScheduleId());
+                }
+            }
+        });
+
+        cashierTable.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 2 && SwingUtilities.isLeftMouseButton(e)) {
+                    clearForm();
+                    scheduleView.searchCashier(getSelectedCashierNuip());
+                }
+            }
+        });
+    }
+
+    public void updateCashiers(List<Cashier> cashiers){
+        cashierTbModel.setRecords(cashiers);
+        cashierTbModel.fireTableDataChanged();
+        cashierTable.scrollRectToVisible(cashierTable.getCellRect(cashierTable.getRowCount() - 1, 0, true));
+    }
+
+    public void updateSchedules(List<Schedule> schedules){
+        scheduleTbModel.setRecords(schedules);
+        scheduleTbModel.fireTableDataChanged();
+        scheduleTable.scrollRectToVisible(scheduleTable.getCellRect(scheduleTable.getRowCount() - 1, 0, true));
+    }
+
+    public void clearForm(){
+        nuip.clearField();
+        nuip.setEditable(true);
+        calendarPanel.setSelectedDate(null);
+        startTimePicker.clear();
+        endTimePicker.clear();
+
+        deleteSchedule.setVisible(false);
+        nuip.setEditable(true);
+    }
+
+    public void clearSearchField(){cashierSearched.setText("");}
 
     public String getNuip(){
         return nuip.getText();
@@ -237,8 +306,28 @@ public class ScheduleFormPanel extends JPanel {
         return endTimePicker.getTime();
     }
 
+    public String getSelectedCashierNuip(){
+        int modelRow = cashierTable.convertRowIndexToModel(cashierTable.getSelectedRow());
+        return cashierTable.getModel().getValueAt(modelRow, 0).toString();
+    }
+
+    public String getSelectedScheduleId(){
+        int modelRow = scheduleTable.convertRowIndexToModel(scheduleTable.getSelectedRow());
+        return scheduleTable.getModel().getValueAt(modelRow, 0).toString();
+    }
+
     public void setNuip(String nuip){
         this.nuip.setText(nuip);
+    }
+
+    public void setSchedule(Schedule schedule){
+        nuip.setText(schedule.getCashier());
+        calendarPanel.setSelectedDate(schedule.getDate());
+        startTimePicker.setTime(schedule.getTimeSlot().getStartTime());
+        endTimePicker.setTime(schedule.getTimeSlot().getEndTime());
+
+        deleteSchedule.setVisible(true);
+        nuip.setEditable(false);
     }
 
 }
