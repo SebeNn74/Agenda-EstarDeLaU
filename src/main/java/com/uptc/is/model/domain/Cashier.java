@@ -11,7 +11,6 @@ public class Cashier {
     private String studentCode;
     private String telNumber;
     private String email;
-
     private Set<String> workingSchedule;
 
     public Cashier(){}

@@ -1,7 +1,6 @@
 package com.uptc.is.view.swing;
 
 import com.uptc.is.model.domain.Cashier;
-import com.uptc.is.model.domain.ScheduleType;
 import com.uptc.is.presenter.CashierPresenter;
 import com.uptc.is.view.contracts.ICashierView;
 import com.uptc.is.view.custom_components.MessageDialog;
@@ -13,8 +12,7 @@ import java.util.List;
 public class CashierView extends JPanel implements ICashierView {
 
     private CashierPresenter presenter;
-    private JFrame frame;
-    private CardLayout cardLayout;
+    private final CardLayout cardLayout;
     private CashierFormPanel formPanel;
     private CashierListPanel listPanel;
 
@@ -99,11 +97,6 @@ public class CashierView extends JPanel implements ICashierView {
     }
 
     @Override
-    public String getSelectedCashierNuip() {
-        return "";
-    }
-
-    @Override
     public void showCashierFormPanel() {
         cardLayout.show(this, "form");
     }
@@ -120,17 +113,12 @@ public class CashierView extends JPanel implements ICashierView {
 
     @Override
     public void displayError(String message) {
-        new MessageDialog(this.frame, message, MessageDialog.MessageType.ERROR);
+        new MessageDialog(null, message, MessageDialog.MessageType.ERROR);
     }
 
     @Override
     public void displayMessage(String message) {
-        new MessageDialog(frame, message, MessageDialog.MessageType.SUCCESS);
-    }
-
-    @Override
-    public void openScheduleManagementView(String cashierNuip, ScheduleType scheduleType) {
-
+        new MessageDialog(null, message, MessageDialog.MessageType.SUCCESS);
     }
 
     @Override
@@ -141,11 +129,6 @@ public class CashierView extends JPanel implements ICashierView {
     @Override
     public JPanel getPanel() {
         return this;
-    }
-
-    @Override
-    public void setParentFrame(JFrame parentFrame) {
-        this.frame = parentFrame;
     }
 
 }

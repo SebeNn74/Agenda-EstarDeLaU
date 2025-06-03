@@ -8,7 +8,6 @@ import com.uptc.is.model.repository.ScheduleRepository;
 import com.uptc.is.view.contracts.IScheduleView;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.Optional;
 
 public class SchedulePresenter {
@@ -28,42 +27,10 @@ public class SchedulePresenter {
         this.view.displayCashierList(cashierRepo.getAll());
     }
 
-    public void test(){
-        Cashier cashier = new Cashier("1056798612", "202211892");
-        cashier.setNames("Sebastian");
-        cashier.setSurnames("Niño Niño");
-        cashier.setTelNumber("3124033131");
-        cashier.setEmail("sebastian.nino06@gmail.com");
-
-        setCashier(cashier);
-
-        Schedule schedule = new Schedule();
-        schedule.setCashier(currentCashier.getNuip());
-        schedule.setDate(LocalDate.of(2004, 12, 7));
-        scheduleRepo.create(schedule);
-        System.out.println(schedule);
-
-        LocalDate date = LocalDate.of(2026, 5, 16);
-
-        Schedule schedule2 = new Schedule();
-        schedule2.setCashier(currentCashier.getNuip());
-        schedule2.setDate(date);
-        scheduleRepo.create(schedule2);
-        System.out.println(schedule2);
-
-        TimeSlot ts = new TimeSlot();
-        ts.setDay(date.getDayOfWeek());
-        ts.setStartTime(LocalTime.of(9,0));
-        ts.setEndTime(LocalTime.of(11,0));
-        schedule2.setTimeSlot(ts);
-        scheduleRepo.update(schedule2);
-        System.out.println(schedule2);
-
-    }
-
     public void loadData(){
         view.displaySchedules(scheduleRepo.getAll());
         view.displayCashierList(cashierRepo.getAll());
+        view.displayCalendar(scheduleRepo.getAll());
     }
 
     public void createSchedule(){
@@ -142,6 +109,7 @@ public class SchedulePresenter {
 
     public void selectSchedule(String id){
         String message;
+        if(id == null) return;
         if(!id.isEmpty()){
             Optional<Schedule> schedule = scheduleRepo.searchById(id);
             if(schedule.isPresent()){
@@ -160,6 +128,7 @@ public class SchedulePresenter {
 
     public void selectCashier(String nuip){
         String message;
+        if(nuip == null) return;
         if(!nuip.isEmpty()){
             Optional<Cashier> cashier = cashierRepo.searchById(nuip);
             if(cashier.isPresent()){
@@ -174,6 +143,14 @@ public class SchedulePresenter {
             view.displaySchedules(scheduleRepo.getAll());
             message = "Ingrese el número de identidad del cajero (humano)";
             view.displayError(message);
+        }
+    }
+
+    public void selectDate(LocalDate date){
+        if(date != null){
+            view.displaySchedules(scheduleRepo.getAllByDate(date));
+        }else{
+            view.displaySchedules(scheduleRepo.getAll());
         }
     }
 

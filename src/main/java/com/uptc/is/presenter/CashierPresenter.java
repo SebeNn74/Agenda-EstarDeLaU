@@ -5,42 +5,17 @@ import com.uptc.is.model.repository.CashierRepository;
 import com.uptc.is.view.contracts.ICashierView;
 
 import java.util.Optional;
-import java.util.function.Consumer;
 
 public class CashierPresenter {
 
     private final CashierRepository cashierRepo;
     private final ICashierView view;
-    private Consumer<Cashier> onCashierSelected; // Listener
 
     public CashierPresenter(CashierRepository cashierRepository, ICashierView cashierView){
         this.cashierRepo = cashierRepository;
         this.view = cashierView;
         this.view.setPresenter(this);
         this.view.displayCashierList(cashierRepo.getAll());
-    }
-
-    public void test() {
-        Cashier cashier = new Cashier("1056798612", "202211892");
-        cashier.setNames("Sebastian");
-        cashier.setSurnames("Niño Niño");
-        cashier.setTelNumber("3124033131");
-        cashier.setEmail("sebastian.nino06@gmail.com");
-
-        Cashier cashier2 = new Cashier("1020304050", "202211892");
-        cashier2.setNames("Juan Manuel");
-        cashier2.setSurnames("Alba Novoa");
-        cashier2.setTelNumber("312000000");
-        cashier2.setEmail("juan.alba02@gmail.com");
-
-        if (cashierRepo.searchById(cashier.getNuip()).isEmpty()) {
-            cashierRepo.create(cashier);
-            System.out.println(cashier);
-        }
-        if (cashierRepo.searchById(cashier2.getNuip()).isEmpty()) {
-            cashierRepo.create(cashier2);
-            System.out.println(cashier2);
-        }
     }
 
     public void createCashier(){
@@ -69,6 +44,7 @@ public class CashierPresenter {
 
     public void selectCashier(String nuip){
         String message;
+        if(nuip == null) return;
         if(!nuip.isEmpty()){
             Optional<Cashier> cashier = cashierRepo.searchById(nuip);
             if(cashier.isPresent()){
@@ -134,10 +110,6 @@ public class CashierPresenter {
         String message = field+" del cajero (humano) no puede estar vacío";
         view.displayError(message);
         return false;
-    }
-
-    public void setOnCashierSelected(Consumer<Cashier> listener) {
-        this.onCashierSelected = listener;
     }
 
 }

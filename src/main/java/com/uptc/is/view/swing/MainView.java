@@ -35,8 +35,7 @@ public class MainView extends JFrame implements IMainView {
         setLayout(new BorderLayout());
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        //PANTALLA COMPLETA
-        /*
+        //Pantalla Completa
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setUndecorated(true);
         GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
@@ -45,7 +44,6 @@ public class MainView extends JFrame implements IMainView {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         width = screenSize.width;
         height = screenSize.height;
-         */
     }
 
     private void configPanel(){
@@ -94,7 +92,7 @@ public class MainView extends JFrame implements IMainView {
 
     public void showGeneralSchedule() {
         cardLayout.show(contentPanel, "schedules");
-        scheduleView.showScheduleListPanel();
+        scheduleView.showGenCalendarPanel();
         topPanel.setTitle("CALENDARIO GENERAL");
     }
 
@@ -116,16 +114,6 @@ public class MainView extends JFrame implements IMainView {
     @Override
     public void closeView() {
         this.presenter.closeApp();
-    }
-
-    @Override
-    public void showCashierManagement() {
-
-    }
-
-    @Override
-    public void showGeneralScheduleManagement() {
-
     }
 
     @Override

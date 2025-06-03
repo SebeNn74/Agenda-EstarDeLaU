@@ -5,6 +5,7 @@ import com.uptc.is.model.domain.Schedule;
 import com.uptc.is.model.repository.ScheduleRepository;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -91,6 +92,18 @@ public class JsonScheduleRepository implements ScheduleRepository {
         try {
             List<Schedule> shedulesFounded = schedulesCache.stream()
                     .filter(s -> s.getCashier().equals(cashierId)).toList();
+            return new ArrayList<>(shedulesFounded);
+        } finally {
+            lock.readLock().unlock();
+        }
+    }
+
+    @Override
+    public List<Schedule> getAllByDate(LocalDate date) {
+        lock.readLock().lock();
+        try {
+            List<Schedule> shedulesFounded = schedulesCache.stream()
+                    .filter(s -> s.getDate().equals(date)).toList();
             return new ArrayList<>(shedulesFounded);
         } finally {
             lock.readLock().unlock();

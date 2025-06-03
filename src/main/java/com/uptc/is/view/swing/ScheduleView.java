@@ -2,7 +2,6 @@ package com.uptc.is.view.swing;
 
 import com.uptc.is.model.domain.Cashier;
 import com.uptc.is.model.domain.Schedule;
-import com.uptc.is.model.domain.ScheduleType;
 import com.uptc.is.presenter.SchedulePresenter;
 import com.uptc.is.view.contracts.IScheduleView;
 import com.uptc.is.view.custom_components.MessageDialog;
@@ -17,10 +16,8 @@ import java.util.List;
 public class ScheduleView  extends JPanel implements IScheduleView {
 
     private SchedulePresenter presenter;
-    private JFrame frame;
-    private CardLayout cardLayout;
+    private final CardLayout cardLayout;
     private ScheduleFormPanel formPanel;
-    private CashierSchedulePanel listPanel;
     private GenCalendarPanel calendarPanel;
 
     public ScheduleView(){
@@ -31,27 +28,26 @@ public class ScheduleView  extends JPanel implements IScheduleView {
 
     private void configPanel(){
         formPanel = new ScheduleFormPanel(this);
-        listPanel = new CashierSchedulePanel();
-        calendarPanel = new GenCalendarPanel();
+        calendarPanel = new GenCalendarPanel(this);
 
         this.add(formPanel, "form");
-        this.add(listPanel, "list");
         this.add(calendarPanel, "calendar");
     }
 
     @Override
     public void displaySchedules(List<Schedule> schedules) {
         formPanel.updateSchedules(schedules);
+        calendarPanel.updateSchedules(schedules);
+    }
+
+    @Override
+    public void displayCalendar(List<Schedule> schedules) {
+        calendarPanel.updateCalendar(schedules);
     }
 
     @Override
     public void displayCashierList(List<Cashier> cashiers) {
         formPanel.updateCashiers(cashiers);
-    }
-
-    @Override
-    public void setViewContext(String contextMessage, ScheduleType type) {
-
     }
 
     @Override
@@ -110,8 +106,8 @@ public class ScheduleView  extends JPanel implements IScheduleView {
     }
 
     @Override
-    public String getSelectedScheduleId() {
-        return formPanel.getSelectedScheduleId();
+    public void searchSchedulesByDate(LocalDate date) {
+        presenter.selectDate(date);
     }
 
     @Override
@@ -126,8 +122,8 @@ public class ScheduleView  extends JPanel implements IScheduleView {
     }
 
     @Override
-    public void showScheduleListPanel() {
-        cardLayout.show(this, "list");
+    public void showGenCalendarPanel() {
+        cardLayout.show(this, "calendar");
         presenter.loadData();
     }
 
@@ -138,12 +134,12 @@ public class ScheduleView  extends JPanel implements IScheduleView {
 
     @Override
     public void displayError(String message) {
-        new MessageDialog(this.frame, message, MessageDialog.MessageType.ERROR);
+        new MessageDialog(null, message, MessageDialog.MessageType.ERROR);
     }
 
     @Override
     public void displayMessage(String message) {
-        new MessageDialog(this.frame, message, MessageDialog.MessageType.SUCCESS);
+        new MessageDialog(null, message, MessageDialog.MessageType.SUCCESS);
     }
 
     @Override
@@ -156,8 +152,4 @@ public class ScheduleView  extends JPanel implements IScheduleView {
         return this;
     }
 
-    @Override
-    public void setParentFrame(JFrame parentFrame) {
-        this.frame = parentFrame;
-    }
 }

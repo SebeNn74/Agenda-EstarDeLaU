@@ -15,16 +15,6 @@ public interface IMainView {
     void closeView();
 
     /**
-     * Navega o muestra la sección de gestión de cajeros.
-     */
-    void showCashierManagement();
-
-    /**
-     * Navega o muestra la sección de gestión de horarios generales.
-     */
-    void showGeneralScheduleManagement();
-
-    /**
      * Muestra un mensaje de error general en la aplicación.
      * @param title Título del mensaje de error.
      * @param message Contenido del mensaje de error.

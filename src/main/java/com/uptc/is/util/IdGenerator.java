@@ -20,5 +20,6 @@ public class IdGenerator {
     public static int getCounter(String prefix) {
         return counters.getOrDefault(prefix, 1);
     }
+
 }
 

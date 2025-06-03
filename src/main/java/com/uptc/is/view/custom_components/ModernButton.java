@@ -19,8 +19,6 @@ public class ModernButton extends JButton {
     private Color borderColor = new Color(14, 121, 182);
     private float fontSize = 12.5f;
 
-    // Propiedades de Apariencia
-    private int cornerRadius = 20;
     private boolean isHovering = false;
     private boolean wasPressed = false;
 
@@ -70,6 +68,8 @@ public class ModernButton extends JButton {
         } else {
             g2.setColor(normalBackgroundColor);
         }
+        // Propiedades de Apariencia
+        int cornerRadius = 20;
         g2.fillRoundRect(0, 0, getWidth(), getHeight(), cornerRadius, cornerRadius);
 
         // Borde

@@ -41,7 +41,6 @@ public class ScheduleFormPanel extends JPanel {
     private CustomTable cashierTable;
     private CustomTable scheduleTable;
     private JScrollPane spCashierTb;
-    private JScrollPane spScheduleTb;
 
     public ScheduleFormPanel(IScheduleView scheduleView){
         this.setLayout(new BorderLayout());
@@ -174,7 +173,7 @@ public class ScheduleFormPanel extends JPanel {
         scheduleTable.setRowHeight(25);
         configTableListeners(scheduleView);
 
-        spScheduleTb = new JScrollPane(scheduleTable);
+        JScrollPane spScheduleTb = new JScrollPane(scheduleTable);
         spScheduleTb.setPreferredSize(new Dimension(this.getWidth(), this.getHeight()));
         spScheduleTb.setBorder(new EmptyBorder(10, 0, 10, 0));
         spScheduleTb.getVerticalScrollBar().setUI(new CustomScrollBarUI());
@@ -307,13 +306,21 @@ public class ScheduleFormPanel extends JPanel {
     }
 
     public String getSelectedCashierNuip(){
-        int modelRow = cashierTable.convertRowIndexToModel(cashierTable.getSelectedRow());
-        return cashierTable.getModel().getValueAt(modelRow, 0).toString();
+        int selectedRow = cashierTable.getSelectedRow();
+        if (selectedRow != -1) {
+            int modelRow = cashierTable.convertRowIndexToModel(cashierTable.getSelectedRow());
+            return cashierTable.getModel().getValueAt(modelRow, 0).toString();
+        }
+        return null;
     }
 
     public String getSelectedScheduleId(){
-        int modelRow = scheduleTable.convertRowIndexToModel(scheduleTable.getSelectedRow());
-        return scheduleTable.getModel().getValueAt(modelRow, 0).toString();
+        int selectedRow = scheduleTable.getSelectedRow();
+        if (selectedRow != -1) {
+            int modelRow = scheduleTable.convertRowIndexToModel(scheduleTable.getSelectedRow());
+            return scheduleTable.getModel().getValueAt(modelRow, 0).toString();
+        }
+        return null;
     }
 
     public void setNuip(String nuip){

@@ -29,11 +29,11 @@ public class Main {
         ICashierView cashierView = new CashierView();
         IScheduleView scheduleView = new ScheduleView();
 
-        CashierPresenter cashierPresenter = new CashierPresenter(cashiersRepository, cashierView);
-        SchedulePresenter schedulePresenter = new SchedulePresenter(scheduleRepository, cashiersRepository ,scheduleView);
+        new CashierPresenter(cashiersRepository, cashierView);
+        new SchedulePresenter(scheduleRepository, cashiersRepository ,scheduleView);
 
         IMainView mainView = new MainView(cashierView, scheduleView);
-        new MainPresenter(mainView, cashierPresenter, schedulePresenter);
+        new MainPresenter(mainView);
 
     }
 

@@ -2,7 +2,6 @@ package com.uptc.is.view.contracts;
 
 import com.uptc.is.model.domain.Cashier;
 import com.uptc.is.model.domain.Schedule;
-import com.uptc.is.model.domain.ScheduleType;
 import com.uptc.is.presenter.SchedulePresenter;
 
 import javax.swing.*;
@@ -20,17 +19,16 @@ public interface IScheduleView {
     void displaySchedules(List<Schedule> schedules);
 
     /**
+     * Carga los horarios en el calendario general.
+     * @param schedules Lista de horarios a mostrar.
+     */
+    void displayCalendar(List<Schedule> schedules);
+
+    /**
      * Muestra una lista de cajeros.
      * @param cashiers Lista de objetos Cashier a mostrar.
      */
     void displayCashierList(List<Cashier> cashiers);
-
-    /**
-     * Establece un título o mensaje de contexto para la vista de horarios.
-     * Ej: "-Tipo de horario- de -Nombre-"
-     * @param contextMessage El mensaje de contexto.
-     */
-    void setViewContext(String contextMessage, ScheduleType type);
 
     /**
      * Limpia los campos del input de entrada/edición de datos del horario.
@@ -96,11 +94,10 @@ public interface IScheduleView {
     void searchSchedule(String id);
 
     /**
-     * Obtiene el ID del horario actualmente seleccionado en la lista/tabla.
-     * Usado para identificar qué horario se quiere eliminar.
-     * @return El ID del horario seleccionado, o null si no hay selección.
+     * Petición de busqueda de los horarios que se encuentren en una fecha específica.
+     * @param date Fecha seleccionada para buscar horarios.
      */
-    String getSelectedScheduleId();
+    void searchSchedulesByDate(LocalDate date);
 
     /**
      * Rellena el campo nuip del formulario de Schedules.
@@ -116,7 +113,7 @@ public interface IScheduleView {
     /**
      * Muestra el panel de listado de cajeros.
      */
-    void showScheduleListPanel();
+    void showGenCalendarPanel();
 
     /**
      * Rellena los campos del input con los datos de un horario específico (para edición).
@@ -144,7 +141,5 @@ public interface IScheduleView {
     void setPresenter(SchedulePresenter presenter);
 
     JPanel getPanel();
-
-    void setParentFrame(JFrame parentFrame);
 
 }

@@ -1,13 +1,10 @@
 package com.uptc.is.view.custom_components;
 
 import com.uptc.is.model.domain.Cashier;
-import com.uptc.is.model.domain.Schedule;
 
 import javax.swing.table.AbstractTableModel;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class BasicCashierTable extends AbstractTableModel {
 

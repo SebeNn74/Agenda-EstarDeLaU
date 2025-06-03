@@ -4,6 +4,9 @@ import com.uptc.is.util.FontLoader;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
 
 public class MessageDialog extends JWindow {
 
@@ -13,17 +16,61 @@ public class MessageDialog extends JWindow {
 
     public MessageDialog(Frame parent, String message, MessageType type) {
         super(parent);
+        setFocusable(true);
+        setAlwaysOnTop(true);
         setBackground(new Color(0, 0, 0, 0));
         setLayout(new BorderLayout());
 
         Toolkit.getDefaultToolkit().beep();
+        config(parent, message, type);
+        showModal();
+    }
 
-        Icon icon = switch (type) {
-            case ERROR -> UIManager.getIcon("OptionPane.errorIcon");
-            case WARNING -> UIManager.getIcon("OptionPane.warningIcon");
-            case SUCCESS -> UIManager.getIcon("OptionPane.informationIcon");
+    private void config(Frame parent, String message, MessageType type){
+        getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                .put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "closeWindow");
+
+        getRootPane().getActionMap().put("closeWindow", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                closeWindow();
+            }
+        });
+
+        JPanel content = getContent();
+
+        // Mensaje e icono
+        JPanel messagePanel = new JPanel(new BorderLayout(10, 0));
+        messagePanel.setOpaque(false);
+
+        JLabel messageLabel = new JLabel("<html><body style='width: 250px'>" + message + "</body></html>");
+        messageLabel.setFont(FontLoader.loadFont("/fonts/Montserrat-SemiBold.ttf", 15f));
+        messageLabel.setForeground(Color.DARK_GRAY);
+        messagePanel.add(messageLabel, BorderLayout.CENTER);
+
+        // Botón cerrar
+        ModernButton closeButton = switch (type) {
+            case ERROR -> ModernButtonFactory.danger("CERRAR");
+            case WARNING -> ModernButtonFactory.variant("CERRAR");
+            case SUCCESS -> ModernButtonFactory.success("CERRAR");
         };
+        closeButton.addActionListener(e -> closeWindow());
 
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setOpaque(false);
+        buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 0, 0));
+        buttonPanel.add(closeButton);
+
+        content.add(messagePanel, BorderLayout.CENTER);
+        content.add(buttonPanel, BorderLayout.SOUTH);
+
+        add(content, BorderLayout.CENTER);
+        pack();
+        setLocationRelativeTo(parent);
+        setVisible(true);
+    }
+
+    private static JPanel getContent() {
         JPanel content = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
@@ -47,39 +94,30 @@ public class MessageDialog extends JWindow {
         content.setLayout(new BorderLayout(15, 15));
         content.setOpaque(false);
         content.setBorder(BorderFactory.createEmptyBorder(20, 25, 20, 25));
+        return content;
+    }
 
-        // Mensaje e icono
-        JPanel messagePanel = new JPanel(new BorderLayout(10, 0));
-        messagePanel.setOpaque(false);
+    private void closeWindow() {
+        setVisible(false);
+        dispose();
+        if (modalBlocker != null) {
+            modalBlocker.dispose();
+        }
+    }
 
-        JLabel iconLabel = new JLabel(icon);
-        messagePanel.add(iconLabel, BorderLayout.WEST);
+    private static JWindow modalBlocker;
 
-        JLabel messageLabel = new JLabel("<html><body style='width: 250px'>" + message + "</body></html>");
-        messageLabel.setFont(FontLoader.loadFont("/fonts/Montserrat-SemiBold.ttf", 15f));
-        messageLabel.setForeground(Color.DARK_GRAY);
-        messagePanel.add(messageLabel, BorderLayout.CENTER);
+    public void showModal() {
+        modalBlocker = new JWindow();
+        modalBlocker.setBackground(new Color(0, 0, 0, 0));
+        modalBlocker.setBounds(GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds());
 
-        // Botón cerrar
-        ModernButton closeButton = switch (type) {
-            case ERROR -> ModernButtonFactory.danger("CERRAR");
-            case WARNING -> ModernButtonFactory.variant("CERRAR");
-            case SUCCESS -> ModernButtonFactory.success("CERRAR");
-        };
-        closeButton.addActionListener(e -> dispose());
+        modalBlocker.addMouseListener(new MouseAdapter() {});
+        modalBlocker.setAlwaysOnTop(true);
+        modalBlocker.setVisible(true);
 
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setOpaque(false);
-        buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 0, 0));
-        buttonPanel.add(closeButton);
-
-        content.add(messagePanel, BorderLayout.CENTER);
-        content.add(buttonPanel, BorderLayout.SOUTH);
-
-        add(content, BorderLayout.CENTER);
-        pack();
-        setLocationRelativeTo(parent);
         setVisible(true);
+        requestFocusInWindow();
     }
 
 }
