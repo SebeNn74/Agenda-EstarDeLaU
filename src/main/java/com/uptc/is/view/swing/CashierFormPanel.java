@@ -26,7 +26,6 @@ public class CashierFormPanel extends JPanel {
     private FormField email;
     private FormField cashierSearched;
     private ModernButton addCashier;
-    private ModernButton deleteCashier;
     private ModernButton updateCashier;
     private BasicCashierTable tableModel;
     private CustomTable cashierTable;
@@ -90,7 +89,7 @@ public class CashierFormPanel extends JPanel {
         updateCashier.setButtonSize( 190, 35);
         updateCashier.setVisible(false);
 
-        deleteCashier = ModernButtonFactory.danger("ELIMINAR CAJERO");
+        ModernButton deleteCashier = ModernButtonFactory.danger("ELIMINAR CAJERO");
         deleteCashier.addClickAction(e -> cashierView.removeCashier());
         deleteCashier.setButtonSize( 190, 35);
 
@@ -239,8 +238,12 @@ public class CashierFormPanel extends JPanel {
     }
 
     public String getSelectedCashierNuip(){
-        int modelRow = cashierTable.convertRowIndexToModel(cashierTable.getSelectedRow());
-        return cashierTable.getModel().getValueAt(modelRow, 0).toString();
+        int selectedRow = cashierTable.getSelectedRow();
+        if (selectedRow != -1) {
+            int modelRow = cashierTable.convertRowIndexToModel(cashierTable.getSelectedRow());
+            return cashierTable.getModel().getValueAt(modelRow, 0).toString();
+        }
+        return null;
     }
 
     public void setCashier(Cashier cashier){

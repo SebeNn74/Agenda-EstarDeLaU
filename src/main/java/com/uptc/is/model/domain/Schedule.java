@@ -6,7 +6,7 @@ import java.time.LocalDate;
 
 public class Schedule {
 
-    private String id;
+    private final String id;
     private String cashier;
     private LocalDate date;
     private TimeSlot timeSlot;

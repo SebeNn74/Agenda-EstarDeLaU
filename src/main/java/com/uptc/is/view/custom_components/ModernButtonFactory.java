@@ -52,4 +52,16 @@ public class ModernButtonFactory {
         return btn;
     }
 
+    public static ModernButton transparent(String text) {
+        ModernButton btn = new ModernButton(text);
+        btn.setBackgroundColors(
+                new Color(0, 0, 0,0),
+                new Color(50, 50, 50, 80),
+                new Color(46, 204, 113)
+        );
+        btn.setForegroundColors(new Color(50, 50, 50), new Color(50, 50, 50));
+        btn.setBorderColor(new Color(50, 50, 50));
+        return btn;
+    }
+
 }

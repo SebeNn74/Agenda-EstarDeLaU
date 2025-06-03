@@ -1,7 +1,6 @@
 package com.uptc.is.view.contracts;
 
 import com.uptc.is.model.domain.Cashier;
-import com.uptc.is.model.domain.ScheduleType;
 import com.uptc.is.presenter.CashierPresenter;
 
 import javax.swing.*;
@@ -84,12 +83,6 @@ public interface ICashierView {
     void searchCashier(String nuip);
 
     /**
-     * Obtiene el NUIP del cajero actualmente seleccionado en la lista/tabla.
-     * @return El NUIP del cajero seleccionado, o null si no hay selección.
-     */
-    String getSelectedCashierNuip();
-
-    /**
      * Muestra el panel de formulario de cajeros.
      */
     void showCashierFormPanel();
@@ -118,13 +111,6 @@ public interface ICashierView {
     void displayMessage(String message);
 
     /**
-     * Abre la vista o diálogo para gestionar los horarios (laborales o de clase) de un cajero específico.
-     * @param cashierNuip El NUIP del cajero para el cual se gestionarán los horarios.
-     * @param scheduleType El tipo de horario a gestionar (WORKING o CLASS).
-     */
-    void openScheduleManagementView(String cashierNuip, ScheduleType scheduleType);
-
-    /**
      * Establece el presentador para esta vista.
      * @param presenter El presentador que controlará esta vista.
      * (Se podría usar una interfaz ICashierPresenter específica)
@@ -132,7 +118,5 @@ public interface ICashierView {
     void setPresenter(CashierPresenter presenter);
 
     JPanel getPanel();
-
-    void setParentFrame(JFrame parentFrame);
 
 }

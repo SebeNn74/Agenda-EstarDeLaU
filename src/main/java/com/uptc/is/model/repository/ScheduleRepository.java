@@ -4,6 +4,7 @@ package com.uptc.is.model.repository;
 
 import com.uptc.is.model.domain.Schedule;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,6 +29,11 @@ public interface ScheduleRepository {
      * Obtiene todos los horarios a partir del nuip del cajero.
      */
     List<Schedule> getAllById(String cashierId);
+
+    /**
+     * Obtiene todos los horarios dentro de una fecha.
+     */
+    List<Schedule> getAllByDate(LocalDate date);
 
     /**
      * Actualiza un horario mandado por parametro.

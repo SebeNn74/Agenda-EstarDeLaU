@@ -7,7 +7,7 @@ import java.awt.*;
 
 public class CustomTextField extends JTextField {
 
-    private int arc = 15;
+    private final int arc = 15;
 
     public CustomTextField() {
         super(100);

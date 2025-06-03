@@ -1,6 +1,5 @@
 package com.uptc.is.view.custom_components;
 
-import com.uptc.is.model.domain.Cashier;
 import com.uptc.is.util.FontLoader;
 
 import javax.swing.*;
@@ -9,7 +8,7 @@ import java.awt.event.ActionListener;
 
 public class FormField extends JPanel{
 
-    private CustomTextField textField;
+    private final CustomTextField textField;
 
     public FormField(String labelText, int labelWidth) {
         setLayout(new BorderLayout(10, 5));

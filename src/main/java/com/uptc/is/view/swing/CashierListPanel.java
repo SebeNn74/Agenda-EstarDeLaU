@@ -2,10 +2,7 @@ package com.uptc.is.view.swing;
 
 import com.uptc.is.model.domain.Cashier;
 import com.uptc.is.view.contracts.ICashierView;
-import com.uptc.is.view.custom_components.CustomScrollBarUI;
-import com.uptc.is.view.custom_components.CustomTable;
-import com.uptc.is.view.custom_components.LargeCashierTable;
-import com.uptc.is.view.custom_components.ModernButton;
+import com.uptc.is.view.custom_components.*;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -16,7 +13,6 @@ public class CashierListPanel extends JPanel {
 
     private LargeCashierTable tableModel;
     private CustomTable cashierTable;
-    private JScrollPane spRecords;
 
     public CashierListPanel(ICashierView cashierView){
         this.setLayout(new BorderLayout());
@@ -26,11 +22,7 @@ public class CashierListPanel extends JPanel {
     }
 
     private void configTopPanel(ICashierView cashierView){
-        ModernButton showListBtn = new ModernButton("REGISTRAR NUEVO CAJERO");
-        showListBtn.setBackgroundColors(new Color(227, 93, 48),
-                new Color(247, 133, 88),
-                new Color(150, 50, 20));
-        showListBtn.setBorderColor(new Color(227, 93, 48));
+        ModernButton showListBtn = ModernButtonFactory.variant("REGISTRAR NUEVO CAJERO");
         showListBtn.setFontSize(15f);
         showListBtn.setButtonSize( 300, 32);
         showListBtn.addClickAction(e -> cashierView.showCashierFormPanel());
@@ -48,7 +40,7 @@ public class CashierListPanel extends JPanel {
         cashierTable.setFillsViewportHeight(true);
         cashierTable.setRowHeight(25);
 
-        spRecords = new JScrollPane(cashierTable);
+        JScrollPane spRecords = new JScrollPane(cashierTable);
         spRecords.setPreferredSize(new Dimension(this.getWidth(), this.getHeight()));
         spRecords.setBorder(new EmptyBorder(10, 0, 10, 0));
         spRecords.getVerticalScrollBar().setUI(new CustomScrollBarUI());
