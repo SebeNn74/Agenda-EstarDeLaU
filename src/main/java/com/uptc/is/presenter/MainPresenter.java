@@ -15,7 +15,7 @@ public class MainPresenter {
     }
 
     public void openUserManual(){
-        new FileOpener("M.U: Sistema de Agendamiento Estar de la U.pdf");
+        new FileOpener("manual/M.U_Sistema de Agendamiento Estar de la U.pdf");
     }
 
 }

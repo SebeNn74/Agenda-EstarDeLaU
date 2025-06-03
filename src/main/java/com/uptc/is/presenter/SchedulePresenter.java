@@ -94,15 +94,16 @@ public class SchedulePresenter {
     }
 
     private boolean validTimeSlot(){
-        String field;
+        String message;
         if (view.getStartTimeInput() == null) {
-            field = "La hora de inicio";
+            message = "La hora de inicio no puede estar vacía";
         } else if (view.getEndTimeInput() == null) {
-            field = "La hora de fin";
+            message = "La hora de fin no puede estar vacía";
+        } else if (!TimeSlot.validHours(view.getStartTimeInput(), view.getEndTimeInput())) {
+            message = "La hora de inicio debe ser antes a la hora de fin";
         }else {
             return true;
         }
-        String message = field+"  no puede estar vacía";
         view.displayError(message);
         return false;
     }

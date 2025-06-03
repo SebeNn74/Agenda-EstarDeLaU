@@ -8,7 +8,7 @@ public class FileOpener {
     public FileOpener(String name){
         try {
             //IDE
-            File pdfFile = new File("resources/"+name);
+            File pdfFile = new File("src/main/resources/"+name);
             if (pdfFile.exists()) {
                 Desktop.getDesktop().open(pdfFile);
                 return;

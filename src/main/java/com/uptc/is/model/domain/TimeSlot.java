@@ -9,8 +9,10 @@ public class TimeSlot {
     private LocalTime startTime;
     private LocalTime endTime;
 
-    public TimeSlot(){
+    public TimeSlot(){}
 
+    public static boolean validHours(LocalTime startTime, LocalTime endTime){
+        return startTime.isBefore(endTime);
     }
 
     //Getters y Setters

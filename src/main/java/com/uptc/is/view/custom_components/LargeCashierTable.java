@@ -9,7 +9,7 @@ import java.util.List;
 
 public class LargeCashierTable extends AbstractTableModel {
 
-    private final String[] colums = {"C.C.","Nombres","Apellidos", "COD", "Teléfono"};
+    private final String[] colums = {"C.C.","Nombres","Apellidos", "COD", "Teléfono", "Correo"};
     private List<Cashier> records;
 
     public LargeCashierTable(){
@@ -46,6 +46,7 @@ public class LargeCashierTable extends AbstractTableModel {
             case 2 -> cashier.getSurnames();
             case 3 -> cashier.getStudentCode();
             case 4 -> cashier.getTelNumber();
+            case 5 -> cashier.getEmail();
             default -> null;
         };
 
