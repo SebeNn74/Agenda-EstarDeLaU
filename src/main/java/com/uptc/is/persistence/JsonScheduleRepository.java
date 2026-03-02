@@ -11,9 +11,12 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class JsonScheduleRepository implements ScheduleRepository {
 
+    private Logger logger = Logger.getLogger(getClass().getName());
     private final String filePath;
     private final JsonService jsonService;
     private final List<Schedule> schedulesCache;
@@ -30,8 +33,9 @@ public class JsonScheduleRepository implements ScheduleRepository {
         try {
             return jsonService.readListFromFile(filePath, new TypeReference<List<Schedule>>() {});
         } catch (IOException e) {
-            System.err.println("Error crítico al cargar horarios desde JSON (" + filePath + "): " + e.getMessage());
-            // Lanzar excepción
+            logger.log(Level.SEVERE,
+                    e,
+                    () -> "Error crítico al cargar horarios desde JSON (" + filePath + ")");
             return new ArrayList<>();
         } finally {
             lock.readLock().unlock();
@@ -43,8 +47,9 @@ public class JsonScheduleRepository implements ScheduleRepository {
         try {
             jsonService.writeListToFile(filePath, schedulesCache);
         } catch (IOException e) {
-            System.err.println("Error crítico al guardar horarios en JSON (" + filePath + "): " + e.getMessage());
-            // Lanzar excepción
+            logger.log(Level.SEVERE,
+                    e,
+                    () -> "Error crítico al guadar horarios desde JSON (" + filePath + ")");
         } finally {
             lock.writeLock().unlock();
         }
@@ -57,8 +62,9 @@ public class JsonScheduleRepository implements ScheduleRepository {
             schedulesCache.add(schedule);
             jsonService.writeListToFile(filePath, schedulesCache);
         } catch (IOException e) {
-            System.err.println("Error crítico al guardar cajeros en JSON (" + filePath + "): " + e.getMessage());
-            // Lanzar excepción
+            logger.log(Level.SEVERE,
+                    e,
+                    () -> "Error crítico alal cargar horarios desde JSON (" + filePath + ")");
         } finally {
             lock.writeLock().unlock();
         }
@@ -123,7 +129,8 @@ public class JsonScheduleRepository implements ScheduleRepository {
                 schedulesCache.set(index, schedule);
                 saveData();
             } else {
-                System.err.println("Intento de actualizar horario no existente con ID: " + schedule.getID());
+                logger.log(Level.SEVERE,
+                        () -> "Intento de actualizar horario no existente con ID: " + schedule.getID());
             }
         } finally {
             lock.writeLock().unlock();
@@ -138,8 +145,8 @@ public class JsonScheduleRepository implements ScheduleRepository {
             if (removed) {
                 saveData();
             } else {
-                System.err.println("Intento de eliminar horario no existente con ID: " + id);
-                //Lanzar excepción
+                logger.log(Level.SEVERE,
+                        () -> "Intento de eliminar horario no existente con ID: " + id);
             }
         } finally {
             lock.writeLock().unlock();

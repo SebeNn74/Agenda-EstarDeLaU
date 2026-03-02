@@ -12,7 +12,7 @@ import java.util.Locale;
 public class BasicScheduleTable extends AbstractTableModel {
 
     private final String[] colums = {"ID","C.C.","Fecha","Día", "Franja Horaria"};
-    private List<Schedule> records;
+    private transient List<Schedule> records;
 
     public BasicScheduleTable(){
         this.records = new ArrayList<>();

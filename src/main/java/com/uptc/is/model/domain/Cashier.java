@@ -3,7 +3,7 @@ package com.uptc.is.model.domain;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Cashier {
+public class Cashier  {
 
     private String nuip;
     private String names;

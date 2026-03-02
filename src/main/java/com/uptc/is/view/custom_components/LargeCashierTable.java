@@ -10,7 +10,7 @@ import java.util.List;
 public class LargeCashierTable extends AbstractTableModel {
 
     private final String[] colums = {"C.C.","Nombres","Apellidos", "COD", "Teléfono", "Correo"};
-    private List<Cashier> records;
+    private transient List<Cashier> records;
 
     public LargeCashierTable(){
         this.records = new ArrayList<>();

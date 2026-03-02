@@ -10,6 +10,8 @@ import java.awt.event.MouseAdapter;
 
 public class MessageDialog extends JWindow {
 
+    private static final String  CLOSE = "CERRAR";
+
     public enum MessageType {
         ERROR, WARNING, SUCCESS
     }
@@ -50,9 +52,9 @@ public class MessageDialog extends JWindow {
 
         // Botón cerrar
         ModernButton closeButton = switch (type) {
-            case ERROR -> ModernButtonFactory.danger("CERRAR");
-            case WARNING -> ModernButtonFactory.variant("CERRAR");
-            case SUCCESS -> ModernButtonFactory.success("CERRAR");
+            case ERROR -> ModernButtonFactory.danger(CLOSE);
+            case WARNING -> ModernButtonFactory.variant(CLOSE);
+            case SUCCESS -> ModernButtonFactory.success(CLOSE);
         };
         closeButton.addActionListener(e -> closeWindow());
 
@@ -105,7 +107,7 @@ public class MessageDialog extends JWindow {
         }
     }
 
-    private static JWindow modalBlocker;
+    private JWindow modalBlocker;
 
     public void showModal() {
         modalBlocker = new JWindow();

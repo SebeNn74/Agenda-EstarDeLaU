@@ -11,7 +11,7 @@ import java.util.List;
 
 public class CashierView extends JPanel implements ICashierView {
 
-    private CashierPresenter presenter;
+    private transient CashierPresenter presenter;
     private final CardLayout cardLayout;
     private CashierFormPanel formPanel;
     private CashierListPanel listPanel;

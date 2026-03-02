@@ -9,7 +9,7 @@ import java.util.List;
 public class BasicCashierTable extends AbstractTableModel {
 
     private final String[] colums = {"C.C.","COD","Nombre Completo"};
-    private List<Cashier> records;
+    private transient List<Cashier> records;
 
     public BasicCashierTable(){
         this.records = new ArrayList<>();

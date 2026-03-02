@@ -11,7 +11,7 @@ import java.awt.*;
 
 public class MainView extends JFrame implements IMainView {
 
-    private MainPresenter presenter;
+    private transient MainPresenter presenter;
 
     public static int width = 1230;
     public static int height = 740;
@@ -19,8 +19,8 @@ public class MainView extends JFrame implements IMainView {
     private TopPanel topPanel;
     private CardLayout cardLayout;
     private JPanel contentPanel;
-    private final ICashierView cashierView;
-    private final IScheduleView scheduleView;
+    private final transient ICashierView cashierView;
+    private final transient IScheduleView scheduleView;
 
     public MainView(ICashierView cashierView, IScheduleView scheduleView){
         this.cashierView = cashierView;
@@ -36,6 +36,7 @@ public class MainView extends JFrame implements IMainView {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         //Pantalla Completa
+        /*
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setUndecorated(true);
         GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
@@ -44,6 +45,8 @@ public class MainView extends JFrame implements IMainView {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         width = screenSize.width;
         height = screenSize.height;
+        
+         */
     }
 
     private void configPanel(){

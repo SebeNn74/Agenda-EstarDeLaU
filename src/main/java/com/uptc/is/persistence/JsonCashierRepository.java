@@ -10,9 +10,12 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class JsonCashierRepository implements CashierRepository {
 
+    private Logger logger = Logger.getLogger(getClass().getName());
     private final String filePath;
     private final JsonService jsonService;
     private final List<Cashier> cashiersCache;
@@ -27,10 +30,12 @@ public class JsonCashierRepository implements CashierRepository {
     private List<Cashier> loadData() {
         lock.readLock().lock();
         try {
-            return jsonService.readListFromFile(filePath, new TypeReference<List<Cashier>>() {});
+            return jsonService.readListFromFile(filePath, new TypeReference<List<Cashier>>() {
+            });
         } catch (IOException e) {
-            System.err.println("Error crítico al cargar cajeros desde JSON (" + filePath + "): " + e.getMessage());
-            // Lanzar excepción
+            logger.log(Level.SEVERE,
+                    e,
+                    () -> "Error crítico al cargar cajeros desde JSON (" + filePath + ")");
             return new ArrayList<>();
         } finally {
             lock.readLock().unlock();
@@ -42,8 +47,9 @@ public class JsonCashierRepository implements CashierRepository {
         try {
             jsonService.writeListToFile(filePath, cashiersCache);
         } catch (IOException e) {
-            System.err.println("Error crítico al guardar cajeros en JSON (" + filePath + "): " + e.getMessage());
-            // Lanzar excepción
+            logger.log(Level.SEVERE,
+                    e,
+                    () -> "Error crítico al guardar cajeros en JSON (" + filePath + ")");
         } finally {
             lock.writeLock().unlock();
         }
@@ -56,8 +62,9 @@ public class JsonCashierRepository implements CashierRepository {
             cashiersCache.add(cashier);
             jsonService.writeListToFile(filePath, cashiersCache);
         } catch (IOException e) {
-            System.err.println("Error crítico al guardar cajeros en JSON (" + filePath + "): " + e.getMessage());
-            // Lanzar excepción
+            logger.log(Level.SEVERE,
+                    e,
+                    () -> "Error crítico al guardar cajeros en JSON (" + filePath + ")");
         } finally {
             lock.writeLock().unlock();
         }
@@ -98,7 +105,8 @@ public class JsonCashierRepository implements CashierRepository {
                 cashiersCache.set(index, cashier);
                 saveData();
             } else {
-                System.err.println("Intento de actualizar empleado no existente con ID: " + cashier.getNuip());
+                logger.log(Level.SEVERE,
+                        () -> "Intento de actualizar empleado no existente con ID: " + cashier.getNuip());
             }
         } finally {
             lock.writeLock().unlock();
@@ -113,8 +121,8 @@ public class JsonCashierRepository implements CashierRepository {
             if (removed) {
                 saveData();
             } else {
-                System.err.println("Intento de eliminar empleado no existente con ID: " + id);
-                //Lanzar excepción
+                logger.log(Level.SEVERE,
+                        () -> "Intento de eliminar empleado no existente con ID: " + id);
             }
         } finally {
             lock.writeLock().unlock();
