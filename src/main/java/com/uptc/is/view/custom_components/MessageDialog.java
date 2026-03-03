@@ -11,6 +11,7 @@ import java.awt.event.MouseAdapter;
 public class MessageDialog extends JWindow {
 
     private static final String  CLOSE = "CERRAR";
+    private JWindow messageModalBlocker;
 
     public enum MessageType {
         ERROR, WARNING, SUCCESS
@@ -102,21 +103,19 @@ public class MessageDialog extends JWindow {
     private void closeWindow() {
         setVisible(false);
         dispose();
-        if (modalBlocker != null) {
-            modalBlocker.dispose();
+        if (messageModalBlocker != null) {
+            messageModalBlocker.dispose();
         }
     }
 
-    private JWindow modalBlocker;
-
     public void showModal() {
-        modalBlocker = new JWindow();
-        modalBlocker.setBackground(new Color(0, 0, 0, 0));
-        modalBlocker.setBounds(GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds());
+        messageModalBlocker = new JWindow();
+        messageModalBlocker.setBackground(new Color(0, 0, 0, 0));
+        messageModalBlocker.setBounds(GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds());
 
-        modalBlocker.addMouseListener(new MouseAdapter() {});
-        modalBlocker.setAlwaysOnTop(true);
-        modalBlocker.setVisible(true);
+        messageModalBlocker.addMouseListener(new MouseAdapter() {});
+        messageModalBlocker.setAlwaysOnTop(true);
+        messageModalBlocker.setVisible(true);
 
         setVisible(true);
         requestFocusInWindow();

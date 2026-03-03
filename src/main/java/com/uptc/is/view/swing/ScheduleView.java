@@ -15,7 +15,7 @@ import java.util.List;
 
 public class ScheduleView  extends JPanel implements IScheduleView {
 
-    private SchedulePresenter presenter;
+    private transient SchedulePresenter presenter;
     private final CardLayout cardLayout;
     private ScheduleFormPanel formPanel;
     private GenCalendarPanel calendarPanel;

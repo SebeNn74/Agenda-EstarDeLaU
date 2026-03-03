@@ -27,6 +27,7 @@ import java.util.List;
 
 public class ScheduleFormPanel extends JPanel {
 
+    private static final String FONT_PATH = "/fonts/Montserrat-Bold.ttf";
     private JPanel inputPanel;
     private JPanel listPanel;
     private FormField nuip;
@@ -66,16 +67,16 @@ public class ScheduleFormPanel extends JPanel {
         nuip.setPreferredSize(new Dimension(0, 35));
 
         dateLb = new JLabel("Fecha: Ninguna seleccionada", SwingConstants.CENTER);
-        dateLb.setFont(FontLoader.loadFont("/fonts/Montserrat-Bold.ttf", 14.5f));
+        dateLb.setFont(FontLoader.loadFont(FONT_PATH, 14.5f));
         dateLb.setAlignmentX(Component.LEFT_ALIGNMENT);
         dateLb.setPreferredSize(new Dimension(200, 30));
 
         configCalendar();
 
         JLabel startTimeLb = new JLabel("Hora de Inicio:");
-        startTimeLb.setFont(FontLoader.loadFont("/fonts/Montserrat-Bold.ttf", 14.5f));
+        startTimeLb.setFont(FontLoader.loadFont(FONT_PATH, 14.5f));
         JLabel endTimeLb = new JLabel("Hora de Fin:");
-        endTimeLb.setFont(FontLoader.loadFont("/fonts/Montserrat-Bold.ttf", 14.5f));
+        endTimeLb.setFont(FontLoader.loadFont(FONT_PATH, 14.5f));
 
         startTimePicker = new TimePicker();
         endTimePicker = new TimePicker();
@@ -214,7 +215,7 @@ public class ScheduleFormPanel extends JPanel {
 
             @Override
             public void yearMonthChanged(YearMonthChangeEvent yearMonthChangeEvent) {
-
+                throw new UnsupportedOperationException("notImplemented() cannot be performed because ...");
             }
         });
     }

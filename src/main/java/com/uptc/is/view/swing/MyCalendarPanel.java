@@ -15,7 +15,7 @@ import java.util.Locale;
 
 public class MyCalendarPanel extends JPanel {
 
-    private final IScheduleView scheduleView;
+    private final transient IScheduleView scheduleView;
     private JPanel headerPanel;
     private JPanel daysGridPanel;
     private JLabel monthYearLabel;

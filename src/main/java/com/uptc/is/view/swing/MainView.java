@@ -13,8 +13,10 @@ public class MainView extends JFrame implements IMainView {
 
     private transient MainPresenter presenter;
 
-    public static int width = 1230;
-    public static int height = 740;
+    private static final String CASHIERS = "cashiers";
+    private static final String SCHEDULES = "schedules";
+    public static int viewWidth = 1230;
+    public static int viewHeight = 740;
 
     private TopPanel topPanel;
     private CardLayout cardLayout;
@@ -31,9 +33,9 @@ public class MainView extends JFrame implements IMainView {
 
     public void frameConfig(){
         setTitle("Agenda Laboral : Estar de la U");
-        setSize(width, height);
+        setSize(viewWidth, viewHeight);
         setLayout(new BorderLayout());
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         //Pantalla Completa
         /*
@@ -61,8 +63,8 @@ public class MainView extends JFrame implements IMainView {
         cardLayout = new CardLayout();
         contentPanel = new JPanel(cardLayout);
         contentPanel.add(new HomePanel(), "home");
-        contentPanel.add(cashierView.getPanel(), "cashiers");
-        contentPanel.add(scheduleView.getPanel(), "schedules");
+        contentPanel.add(cashierView.getPanel(), CASHIERS);
+        contentPanel.add(scheduleView.getPanel(), SCHEDULES);
 
         mainPanel.add(topPanel, BorderLayout.NORTH);
         mainPanel.add(contentPanel, BorderLayout.CENTER);
@@ -76,25 +78,25 @@ public class MainView extends JFrame implements IMainView {
     }
 
     public void showCashierForm() {
-        cardLayout.show(contentPanel, "cashiers");
+        cardLayout.show(contentPanel, CASHIERS);
         cashierView.showCashierFormPanel();
         topPanel.setTitle("INGRESO DE CAJEROS");
     }
 
     public void showCashierList() {
-        cardLayout.show(contentPanel, "cashiers");
+        cardLayout.show(contentPanel, CASHIERS);
         cashierView.showCashierListPanel();
         topPanel.setTitle("REGISTRO DE CAJEROS");
     }
 
     public void showScheduleForm() {
-        cardLayout.show(contentPanel, "schedules");
+        cardLayout.show(contentPanel, SCHEDULES);
         scheduleView.showScheduleFormPanel();
         topPanel.setTitle("INGRESO DE HORARIOS");
     }
 
     public void showGeneralSchedule() {
-        cardLayout.show(contentPanel, "schedules");
+        cardLayout.show(contentPanel, SCHEDULES);
         scheduleView.showGenCalendarPanel();
         topPanel.setTitle("CALENDARIO GENERAL");
     }
